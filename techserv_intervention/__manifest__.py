@@ -18,6 +18,7 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'hr_skills',
         'product',
         'sale_management',
+        'account',
     ],
     'data': [
         'data/ir_sequence_data.xml',
@@ -29,6 +30,8 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'views/product_template_views.xml',
         'views/sale_order_views.xml',
         'views/res_partner_views.xml',
+        'views/account_move_views.xml',
+        'report/report_invoice.xml',
     ],
     'demo': [
     ],

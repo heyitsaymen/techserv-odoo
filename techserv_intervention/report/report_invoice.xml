@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Facture imprimée : on hérite du template standard (jamais modifié) et on
+        insère, juste sous le bloc d'informations (dates, origine...), la liste
+        des interventions facturées avec l'équipement et son numéro de série.
+    -->
+    <template id="report_invoice_document_inherit_techserv" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='informations']" position="after">
+            <!-- sudo : la comptable doit pouvoir imprimer même si elle n'a pas accès aux interventions -->
+            <t t-set="techserv_interventions" t-value="o.sudo().intervention_ids"/>
+            <table t-if="techserv_interventions" class="table table-sm table-borderless mb-4"
+                   name="techserv_interventions">
+                <thead>
+                    <tr>
+                        <th class="text-start">Intervention</th>
+                        <th class="text-start">Equipment</th>
+                        <th class="text-start">Serial Number</th>
+                        <th class="text-end">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="techserv_interventions" t-as="intervention">
+                        <td><span t-field="intervention.reference">INT/2026/00001</span></td>
+                        <td><span t-field="intervention.equipment_id.name">Air conditioner</span></td>
+                        <td><span t-field="intervention.equipment_id.serial_no">SN-0001</span></td>
+                        <td class="text-end"><span t-field="intervention.close_date">2026-10-18</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>

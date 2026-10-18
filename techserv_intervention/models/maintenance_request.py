@@ -39,6 +39,10 @@ class MaintenanceRequest(models.Model):
         'sale.order', string='Sales Order', readonly=True, copy=False, index='btree_not_null',
         check_company=True, tracking=True)
     sale_line_id = fields.Many2one('sale.order.line', string='Sales Order Line', readonly=True, copy=False)
+    # Facture standard (account.move) ; plusieurs interventions peuvent partager la même facture
+    invoice_id = fields.Many2one(
+        'account.move', string='Invoice', readonly=True, copy=False, index='btree_not_null',
+        check_company=True, tracking=True)
     # Champs standards dont on active le suivi (traçabilité « qui a changé quoi »)
     schedule_date = fields.Datetime(tracking=True)
     schedule_end = fields.Datetime(tracking=True)
