@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Données de démonstration TechServ : 2 sociétés, techniciens (employés +
+        utilisateurs), clients, produits, équipements sous / hors garantie et
+        interventions à toutes les étapes.
+        Connexions (mot de passe « techserv ») : responsable, technicien1,
+        technicien2 (Alger), technicien.oran (Oran).
+    -->
+
+    <!-- ===================== Sociétés ===================== -->
+    <record id="base.main_company" model="res.company">
+        <field name="name">TechServ Alger</field>
+        <field name="city">Alger</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="email">contact@techserv-alger.example.com</field>
+        <field name="phone">+213 21 00 00 00</field>
+    </record>
+    <record id="company_oran" model="res.company">
+        <field name="name">TechServ Oran</field>
+        <field name="city">Oran</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="email">contact@techserv-oran.example.com</field>
+    </record>
+    <record id="base.user_admin" model="res.users">
+        <field name="company_ids" eval="[(4, ref('company_oran'))]"/>
+    </record>
+
+    <!-- ===================== Utilisateurs ===================== -->
+    <record id="user_manager" model="res.users">
+        <field name="name">Karim Responsable</field>
+        <field name="login">responsable</field>
+        <field name="password">techserv</field>
+        <field name="email">responsable@techserv.example.com</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('company_oran')])]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_techserv_manager'), ref('sales_team.group_sale_salesman')])]"/>
+    </record>
+    <record id="user_tech1" model="res.users">
+        <field name="name">Yacine Technicien</field>
+        <field name="login">technicien1</field>
+        <field name="password">techserv</field>
+        <field name="email">yacine@techserv.example.com</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_techserv_technician')])]"/>
+    </record>
+    <record id="user_tech2" model="res.users">
+        <field name="name">Samir Technicien</field>
+        <field name="login">technicien2</field>
+        <field name="password">techserv</field>
+        <field name="email">samir@techserv.example.com</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_techserv_technician')])]"/>
+    </record>
+    <record id="user_tech_oran" model="res.users">
+        <field name="name">Nadia Technicienne</field>
+        <field name="login">technicien.oran</field>
+        <field name="password">techserv</field>
+        <field name="email">nadia@techserv.example.com</field>
+        <field name="company_id" ref="company_oran"/>
+        <field name="company_ids" eval="[(6, 0, [ref('company_oran')])]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_techserv_technician')])]"/>
+    </record>
+
+    <!-- ===================== Techniciens = employés ===================== -->
+    <record id="employee_tech1" model="hr.employee">
+        <field name="name">Yacine Technicien</field>
+        <field name="user_id" ref="user_tech1"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="job_title">Technicien climatisation</field>
+        <field name="mobile_phone">+213 555 10 20 30</field>
+        <field name="work_email">yacine@techserv.example.com</field>
+        <field name="hourly_cost">18.0</field>
+    </record>
+    <record id="employee_tech2" model="hr.employee">
+        <field name="name">Samir Technicien</field>
+        <field name="user_id" ref="user_tech2"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="job_title">Technicien groupes électrogènes et pompes</field>
+        <field name="mobile_phone">+213 555 40 50 60</field>
+        <field name="work_email">samir@techserv.example.com</field>
+        <field name="hourly_cost">20.0</field>
+    </record>
+    <record id="employee_tech_oran" model="hr.employee">
+        <field name="name">Nadia Technicienne</field>
+        <field name="user_id" ref="user_tech_oran"/>
+        <field name="company_id" ref="company_oran"/>
+        <field name="job_title">Technicienne polyvalente</field>
+        <field name="mobile_phone">+213 555 70 80 90</field>
+        <field name="work_email">nadia@techserv.example.com</field>
+        <field name="hourly_cost">17.0</field>
+    </record>
+    <record id="employee_manager" model="hr.employee">
+        <field name="name">Karim Responsable</field>
+        <field name="user_id" ref="user_manager"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="job_title">Responsable technique</field>
+    </record>
+
+    <!-- Certifications (module standard hr_skills) -->
+    <record id="employee_skill_tech1_refrigerant" model="hr.employee.skill">
+        <field name="employee_id" ref="employee_tech1"/>
+        <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        <field name="skill_id" ref="skill_refrigerant_handling"/>
+        <field name="skill_level_id" ref="skill_level_certified"/>
+        <field name="valid_from" eval="(DateTime.today() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+        <field name="valid_to" eval="(DateTime.today() + relativedelta(years=4)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="employee_skill_tech2_electrical" model="hr.employee.skill">
+        <field name="employee_id" ref="employee_tech2"/>
+        <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        <field name="skill_id" ref="skill_electrical_clearance"/>
+        <field name="skill_level_id" ref="skill_level_certified"/>
+        <field name="valid_from" eval="(DateTime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+        <field name="valid_to" eval="(DateTime.today() + relativedelta(years=3)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="employee_skill_tech2_generator" model="hr.employee.skill">
+        <field name="employee_id" ref="employee_tech2"/>
+        <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        <field name="skill_id" ref="skill_generator"/>
+        <field name="skill_level_id" ref="skill_level_certified"/>
+        <field name="valid_from" eval="(DateTime.today() - relativedelta(years=2)).strftime('%Y-%m-%d')"/>
+    </record>
+
+    <!-- Véhicules (module standard fleet, conducteur = contact de l'employé → hr_fleet) -->
+    <record id="fleet_brand_renault" model="fleet.vehicle.model.brand">
+        <field name="name">Renault</field>
+    </record>
+    <record id="fleet_model_kangoo" model="fleet.vehicle.model">
+        <field name="name">Kangoo Van</field>
+        <field name="brand_id" ref="fleet_brand_renault"/>
+        <field name="vehicle_type">car</field>
+    </record>
+    <record id="vehicle_tech1" model="fleet.vehicle">
+        <field name="model_id" ref="fleet_model_kangoo"/>
+        <field name="license_plate">01234-116-16</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="driver_id" model="res.partner" search="[('user_ids', 'in', [ref('user_tech1')])]"/>
+    </record>
+    <record id="vehicle_tech2" model="fleet.vehicle">
+        <field name="model_id" ref="fleet_model_kangoo"/>
+        <field name="license_plate">05678-117-16</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="driver_id" model="res.partner" search="[('user_ids', 'in', [ref('user_tech2')])]"/>
+    </record>
+
+    <!-- Équipes de maintenance (standard) : membres prévenus des nouvelles interventions -->
+    <record id="maintenance.equipment_team_maintenance" model="maintenance.team">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="member_ids" eval="[(6, 0, [ref('user_manager'), ref('user_tech1'), ref('user_tech2')])]"/>
+    </record>
+    <record id="team_oran" model="maintenance.team">
+        <field name="name">Équipe Oran</field>
+        <field name="company_id" ref="company_oran"/>
+        <field name="member_ids" eval="[(6, 0, [ref('user_manager'), ref('user_tech_oran')])]"/>
+    </record>
+
+    <!-- ===================== Clients ===================== -->
+    <record id="partner_clinic" model="res.partner">
+        <field name="name">Clinique Les Oliviers</field>
+        <field name="is_company" eval="True"/>
+        <field name="street">12 rue Didouche Mourad</field>
+        <field name="city">Alger</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="phone">+213 21 11 22 33</field>
+        <field name="email">contact@clinique-oliviers.example.com</field>
+    </record>
+    <record id="partner_bakery" model="res.partner">
+        <field name="name">Boulangerie Benali</field>
+        <field name="is_company" eval="True"/>
+        <field name="street">5 boulevard Mohamed V</field>
+        <field name="city">Alger</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="phone">+213 21 44 55 66</field>
+        <field name="email">benali@boulangerie.example.com</field>
+    </record>
+    <record id="partner_residence" model="res.partner">
+        <field name="name">Résidence Les Pins</field>
+        <field name="is_company" eval="True"/>
+        <field name="street">Cité des Pins, bloc C</field>
+        <field name="city">Alger</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="email">syndic@residence-pins.example.com</field>
+    </record>
+    <record id="partner_agro" model="res.partner">
+        <field name="name">Usine AgroSud</field>
+        <field name="is_company" eval="True"/>
+        <field name="street">Zone industrielle Es Senia</field>
+        <field name="city">Oran</field>
+        <field name="country_id" ref="base.dz"/>
+        <field name="email">maintenance@agrosud.example.com</field>
+        <field name="company_id" ref="company_oran"/>
+    </record>
+
+    <!-- ===================== Produits ===================== -->
+    <record id="product_split_ac" model="product.product">
+        <field name="name">Climatiseur split 12000 BTU</field>
+        <field name="type">consu</field>
+        <field name="list_price">950.0</field>
+    </record>
+    <record id="product_generator" model="product.product">
+        <field name="name">Groupe électrogène 20 kVA</field>
+        <field name="type">consu</field>
+        <field name="list_price">7800.0</field>
+    </record>
+    <record id="product_pump" model="product.product">
+        <field name="name">Pompe immergée 2 CV</field>
+        <field name="type">consu</field>
+        <field name="list_price">1200.0</field>
+    </record>
+    <!-- Services vendus qui déclenchent une intervention à la confirmation du devis -->
+    <record id="product_ac_installation" model="product.product">
+        <field name="name">Installation de climatiseur</field>
+        <field name="type">service</field>
+        <field name="list_price">150.0</field>
+        <field name="create_intervention" eval="True"/>
+    </record>
+    <record id="product_maintenance_contract" model="product.product">
+        <field name="name">Contrat de maintenance annuel</field>
+        <field name="type">service</field>
+        <field name="list_price">480.0</field>
+        <field name="create_intervention" eval="True"/>
+    </record>
+    <!-- Pièces détachées (stockées) -->
+    <record id="product_part_filter" model="product.product">
+        <field name="name">Filtre à air pour climatiseur</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">8.5</field>
+    </record>
+    <record id="product_part_capacitor" model="product.product">
+        <field name="name">Condensateur 35 µF</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">15.0</field>
+    </record>
+    <record id="product_part_belt" model="product.product">
+        <field name="name">Kit courroie groupe électrogène</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">40.0</field>
+    </record>
+    <record id="product_part_seal" model="product.product">
+        <field name="name">Garniture mécanique de pompe</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">30.0</field>
+    </record>
+
+    <!-- Stock initial des pièces (entrepôt d'Alger) -->
+    <record id="quant_filter" model="stock.quant">
+        <field name="product_id" ref="product_part_filter"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">40</field>
+    </record>
+    <record id="quant_capacitor" model="stock.quant">
+        <field name="product_id" ref="product_part_capacitor"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">25</field>
+    </record>
+    <record id="quant_belt" model="stock.quant">
+        <field name="product_id" ref="product_part_belt"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">10</field>
+    </record>
+    <record id="quant_seal" model="stock.quant">
+        <field name="product_id" ref="product_part_seal"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="inventory_quantity">12</field>
+    </record>
+    <!-- Entrepôt d'Oran : en Odoo 19 une nouvelle société n'a pas d'entrepôt par défaut -->
+    <record id="warehouse_oran" model="stock.warehouse">
+        <field name="name">Entrepôt Oran</field>
+        <field name="code">ORAN</field>
+        <field name="company_id" ref="company_oran"/>
+    </record>
+    <record id="quant_filter_oran" model="stock.quant">
+        <field name="product_id" ref="product_part_filter"/>
+        <field name="location_id" model="stock.location"
+               search="[('warehouse_id', '=', ref('warehouse_oran')), ('usage', '=', 'internal')]"/>
+        <field name="inventory_quantity">15</field>
+    </record>
+    <function model="stock.quant" name="action_apply_inventory"
+              eval="[[ref('quant_filter'), ref('quant_capacitor'), ref('quant_belt'), ref('quant_seal'), ref('quant_filter_oran')]]"/>
+
+    <!-- ===================== Équipements ===================== -->
+    <record id="category_ac" model="maintenance.equipment.category">
+        <field name="name">Climatisation</field>
+        <field name="company_id" eval="False"/>
+        <!-- Pas de responsable par défaut (sinon l'utilisateur courant devient technicien des demandes) -->
+        <field name="technician_user_id" eval="False"/>
+    </record>
+    <record id="category_generator" model="maintenance.equipment.category">
+        <field name="name">Groupes électrogènes</field>
+        <field name="company_id" eval="False"/>
+        <!-- Pas de responsable par défaut (sinon l'utilisateur courant devient technicien des demandes) -->
+        <field name="technician_user_id" eval="False"/>
+    </record>
+    <record id="category_pump" model="maintenance.equipment.category">
+        <field name="name">Pompes</field>
+        <field name="company_id" eval="False"/>
+        <!-- Pas de responsable par défaut (sinon l'utilisateur courant devient technicien des demandes) -->
+        <field name="technician_user_id" eval="False"/>
+    </record>
+
+    <record id="equipment_clinic_ac" model="maintenance.equipment">
+        <field name="name">Climatiseur bloc opératoire</field>
+        <field name="customer_id" ref="partner_clinic"/>
+        <field name="product_id" ref="product_split_ac"/>
+        <field name="category_id" ref="category_ac"/>
+        <field name="serial_no">CLIM-2025-0001</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() + relativedelta(months=18)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="equipment_clinic_generator" model="maintenance.equipment">
+        <field name="name">Groupe électrogène de secours</field>
+        <field name="customer_id" ref="partner_clinic"/>
+        <field name="product_id" ref="product_generator"/>
+        <field name="category_id" ref="category_generator"/>
+        <field name="serial_no">GE-2021-0013</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(years=4)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() - relativedelta(years=2)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="equipment_bakery_generator" model="maintenance.equipment">
+        <field name="name">Groupe électrogène fournil</field>
+        <field name="customer_id" ref="partner_bakery"/>
+        <field name="product_id" ref="product_generator"/>
+        <field name="category_id" ref="category_generator"/>
+        <field name="serial_no">GE-2022-0042</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(years=3)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="equipment_residence_pump" model="maintenance.equipment">
+        <field name="name">Pompe de relevage</field>
+        <field name="customer_id" ref="partner_residence"/>
+        <field name="product_id" ref="product_pump"/>
+        <field name="category_id" ref="category_pump"/>
+        <field name="serial_no">PMP-2024-0007</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() + relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="equipment_agro_ac" model="maintenance.equipment">
+        <field name="name">Climatiseur chambre froide</field>
+        <field name="customer_id" ref="partner_agro"/>
+        <field name="product_id" ref="product_split_ac"/>
+        <field name="category_id" ref="category_ac"/>
+        <field name="serial_no">CLIM-2023-0100</field>
+        <field name="company_id" ref="company_oran"/>
+        <field name="maintenance_team_id" ref="team_oran"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(years=3)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() - relativedelta(years=1)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="equipment_agro_pump" model="maintenance.equipment">
+        <field name="name">Pompe de forage</field>
+        <field name="customer_id" ref="partner_agro"/>
+        <field name="product_id" ref="product_pump"/>
+        <field name="category_id" ref="category_pump"/>
+        <field name="serial_no">PMP-2025-0021</field>
+        <field name="company_id" ref="company_oran"/>
+        <field name="maintenance_team_id" ref="team_oran"/>
+        <field name="effective_date" eval="(DateTime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+        <field name="warranty_date" eval="(DateTime.today() + relativedelta(years=2)).strftime('%Y-%m-%d')"/>
+    </record>
+
+    <!-- ===================== Interventions ===================== -->
+    <!-- Demandes reçues (à planifier avec l'assistant d'attribution groupée) -->
+    <record id="intervention_urgent_received" model="maintenance.request">
+        <field name="name">Climatisation en panne au bloc opératoire</field>
+        <field name="equipment_id" ref="equipment_clinic_ac"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="priority">3</field>
+        <field name="stage_id" ref="maintenance.stage_0"/>
+    </record>
+    <record id="intervention_received" model="maintenance.request">
+        <field name="name">Bruit anormal du groupe électrogène</field>
+        <field name="equipment_id" ref="equipment_bakery_generator"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="priority">2</field>
+        <field name="stage_id" ref="maintenance.stage_0"/>
+    </record>
+    <record id="intervention_received_low" model="maintenance.request">
+        <field name="name">Contrôle annuel de la pompe</field>
+        <field name="equipment_id" ref="equipment_residence_pump"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="priority">1</field>
+        <field name="maintenance_type">preventive</field>
+        <field name="stage_id" ref="maintenance.stage_0"/>
+    </record>
+
+    <!-- Planifiée (demain) -->
+    <record id="intervention_planned" model="maintenance.request">
+        <field name="name">Démarrage difficile du groupe de secours</field>
+        <field name="equipment_id" ref="equipment_clinic_generator"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="priority">2</field>
+        <field name="user_id" ref="user_tech1"/>
+        <field name="schedule_date" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 08:00:00')"/>
+        <field name="schedule_end" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="stage_id" ref="stage_planned"/>
+    </record>
+
+    <!-- En cours (aujourd'hui) -->
+    <record id="intervention_in_progress" model="maintenance.request">
+        <field name="name">La pompe ne démarre plus</field>
+        <field name="equipment_id" ref="equipment_residence_pump"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="priority">3</field>
+        <field name="user_id" ref="user_tech2"/>
+        <field name="schedule_date" eval="DateTime.today().strftime('%Y-%m-%d 07:00:00')"/>
+        <field name="schedule_end" eval="DateTime.today().strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="stage_id" ref="maintenance.stage_1"/>
+    </record>
+
+    <!-- Terminée (hier), équipement SOUS garantie : la main-d'oeuvre ne sera pas facturée -->
+    <record id="intervention_done" model="maintenance.request">
+        <field name="name">Remplacement du filtre et contrôle du gaz</field>
+        <field name="equipment_id" ref="equipment_clinic_ac"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="user_id" ref="user_tech1"/>
+        <field name="schedule_date" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d 08:00:00')"/>
+        <field name="schedule_end" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d 09:30:00')"/>
+        <field name="stage_id" ref="maintenance.stage_1"/>
+        <field name="time_spent">1.5</field>
+        <field name="signed_by">Dr. Amrani</field>
+        <field name="signed_on" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d 09:30:00')"/>
+        <field name="customer_signature" type="base64" file="techserv_intervention/static/img/demo_signature.png"/>
+        <field name="part_ids" eval="[(0, 0, {'product_id': ref('product_part_filter'), 'quantity': 2})]"/>
+    </record>
+    <function model="maintenance.request" name="_techserv_create_parts_picking" eval="[[ref('intervention_done')]]"/>
+    <record id="intervention_done" model="maintenance.request">
+        <field name="stage_id" ref="maintenance.stage_3"/>
+    </record>
+
+    <!-- Facturée, équipement HORS garantie : main-d'oeuvre + pièces facturées -->
+    <record id="intervention_invoiced" model="maintenance.request">
+        <field name="name">Révision complète du groupe électrogène</field>
+        <field name="equipment_id" ref="equipment_bakery_generator"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="user_id" ref="user_tech2"/>
+        <field name="schedule_date" eval="(DateTime.today() - relativedelta(days=3)).strftime('%Y-%m-%d 08:00:00')"/>
+        <field name="schedule_end" eval="(DateTime.today() - relativedelta(days=3)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="stage_id" ref="maintenance.stage_1"/>
+        <field name="time_spent">3.0</field>
+        <field name="signed_by">M. Benali</field>
+        <field name="signed_on" eval="(DateTime.today() - relativedelta(days=3)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="customer_signature" type="base64" file="techserv_intervention/static/img/demo_signature.png"/>
+        <field name="part_ids" eval="[(0, 0, {'product_id': ref('product_part_belt'), 'quantity': 1})]"/>
+    </record>
+    <function model="maintenance.request" name="_techserv_create_parts_picking" eval="[[ref('intervention_invoiced')]]"/>
+    <record id="intervention_invoiced" model="maintenance.request">
+        <field name="stage_id" ref="maintenance.stage_3"/>
+    </record>
+    <function model="maintenance.request" name="_techserv_create_invoices" eval="[[ref('intervention_invoiced')]]"/>
+
+    <!-- Annulée -->
+    <record id="intervention_cancelled" model="maintenance.request">
+        <field name="name">Demande en double (annulée)</field>
+        <field name="equipment_id" ref="equipment_bakery_generator"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="maintenance_team_id" ref="maintenance.equipment_team_maintenance"/>
+        <field name="stage_id" ref="maintenance.stage_4"/>
+        <field name="archive" eval="True"/>
+    </record>
+
+    <!-- Société Oran -->
+    <record id="intervention_oran_planned" model="maintenance.request">
+        <field name="name">Chambre froide : température trop haute</field>
+        <field name="equipment_id" ref="equipment_agro_ac"/>
+        <field name="company_id" ref="company_oran"/>
+        <field name="maintenance_team_id" ref="team_oran"/>
+        <field name="priority">3</field>
+        <field name="user_id" ref="user_tech_oran"/>
+        <field name="schedule_date" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="schedule_end" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="stage_id" ref="stage_planned"/>
+    </record>
+    <record id="intervention_oran_received" model="maintenance.request">
+        <field name="name">Débit faible de la pompe de forage</field>
+        <field name="equipment_id" ref="equipment_agro_pump"/>
+        <field name="company_id" ref="company_oran"/>
+        <field name="maintenance_team_id" ref="team_oran"/>
+        <field name="stage_id" ref="maintenance.stage_0"/>
+    </record>
+
+    <!-- ===================== Vente : devis confirmé => intervention créée ===================== -->
+    <record id="sale_order_installation" model="sale.order">
+        <field name="partner_id" ref="partner_residence"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="user_id" ref="user_manager"/>
+        <field name="order_line" eval="[
+            (0, 0, {'product_id': ref('product_ac_installation'), 'product_uom_qty': 1}),
+            (0, 0, {'product_id': ref('product_split_ac'), 'product_uom_qty': 1}),
+        ]"/>
+    </record>
+    <function model="sale.order" name="action_confirm" eval="[[ref('sale_order_installation')]]"/>
+</odoo>

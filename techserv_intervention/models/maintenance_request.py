@@ -291,9 +291,14 @@ class MaintenanceRequest(models.Model):
         for move in picking.move_ids:
             move.quantity = move.product_uom_qty
             move.picked = True
-        result = picking.button_validate()
-        if result is not True or picking.state != 'done':
-            raise UserError(self.env._("The parts delivery %s could not be validated.", picking.name))
+        # skip_sms : pas de SMS « livraison expédiée » (module stock_sms) pour des pièces
+        # posées chez le client. button_validate() peut renvoyer une action (impression
+        # automatique du bon, assistant...) : c'est l'état du bon qui fait foi.
+        picking.with_context(skip_sms=True).button_validate()
+        if picking.state != 'done':
+            raise UserError(self.env._(
+                "The parts delivery %(picking)s could not be validated (status: %(state)s).",
+                picking=picking.name, state=picking.state))
         for part, move in zip(parts, picking.move_ids):
             part.move_id = move
         self.picking_id = picking

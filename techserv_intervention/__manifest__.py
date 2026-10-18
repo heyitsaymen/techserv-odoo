@@ -45,6 +45,7 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'report/report_intervention.xml',
     ],
     'demo': [
+        'demo/techserv_demo.xml',
     ],
     'post_init_hook': 'post_init_hook',
     'installable': True,
