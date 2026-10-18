@@ -32,13 +32,19 @@ class SaleOrder(models.Model):
             vals_list += [order._prepare_techserv_intervention_values(line) for line in lines]
         if not vals_list:
             return Intervention
-        interventions = Intervention.create(vals_list)
+        # sudo() limité à la création (comme le standard sale_project pour les tâches) :
+        # l'intervention est une conséquence de la vente, le commercial n'a pas à
+        # avoir les droits de création sur les demandes de maintenance.
+        interventions = Intervention.sudo().create(vals_list)
         for intervention in interventions:
+            # Le commercial et le vendeur du devis suivent l'intervention (et la voient)
+            intervention.message_subscribe(
+                partner_ids=(self.env.user.partner_id | intervention.sale_order_id.user_id.partner_id).ids)
             intervention._techserv_notify_team(
                 summary=self.env._("New intervention to plan"),
                 note=self.env._("Created from the confirmed sales order %s.", intervention.sale_order_id.name),
             )
-        return interventions
+        return interventions.with_env(self.env)
 
     def _prepare_techserv_intervention_values(self, line):
         self.ensure_one()
