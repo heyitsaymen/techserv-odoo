@@ -27,6 +27,13 @@ class MaintenanceRequest(models.Model):
     # et des règles automatisées sur l'état sans dépendre du nom de l'étape.
     techserv_state = fields.Selection(
         related='stage_id.techserv_state', store=True, index=True, string='TechServ State')
+    # Le technicien reste le champ standard ``user_id`` (res.users) : les règles
+    # d'accès et les activités s'appuient dessus. Ses coordonnées viennent de sa
+    # fiche employé (hr.employee.public : lisible par tous les utilisateurs internes),
+    # rien n'est ressaisi sur l'intervention.
+    technician_employee_id = fields.Many2one(
+        'hr.employee.public', string='Technician Employee', compute='_compute_technician_employee_id')
+    technician_phone = fields.Char(string='Technician Mobile', compute='_compute_technician_employee_id')
     # Champs standards dont on active le suivi (traçabilité « qui a changé quoi »)
     schedule_date = fields.Datetime(tracking=True)
     schedule_end = fields.Datetime(tracking=True)
@@ -51,6 +58,16 @@ class MaintenanceRequest(models.Model):
         for request in self:
             if request.equipment_id.customer_id:
                 request.customer_id = request.equipment_id.customer_id
+
+    @api.depends('user_id', 'company_id')
+    def _compute_technician_employee_id(self):
+        for request in self:
+            employee = self.env['hr.employee.public'].search([
+                ('user_id', '=', request.user_id.id),
+                ('company_id', '=', request.company_id.id),
+            ], limit=1) if request.user_id else self.env['hr.employee.public']
+            request.technician_employee_id = employee
+            request.technician_phone = employee.mobile_phone or employee.work_phone
 
     @api.model_create_multi
     def create(self, vals_list):

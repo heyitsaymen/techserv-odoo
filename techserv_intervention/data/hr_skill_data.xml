@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Certifications des techniciens : on utilise le module standard hr_skills.
+        Un type de compétence « certification » gère les dates de validité
+        (valid_from / valid_to) et l'onglet Certifications de la fiche employé.
+    -->
+    <data noupdate="1">
+        <record id="skill_type_techserv_certification" model="hr.skill.type">
+            <field name="name">Technical Certifications</field>
+            <field name="is_certification" eval="True"/>
+        </record>
+        <record id="skill_level_certified" model="hr.skill.level">
+            <field name="name">Certified</field>
+            <field name="level_progress">100</field>
+            <field name="default_level" eval="True"/>
+            <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        </record>
+        <record id="skill_electrical_clearance" model="hr.skill">
+            <field name="name">Electrical Clearance</field>
+            <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        </record>
+        <record id="skill_refrigerant_handling" model="hr.skill">
+            <field name="name">Refrigerant Handling Certificate</field>
+            <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        </record>
+        <record id="skill_generator" model="hr.skill">
+            <field name="name">Generator Maintenance</field>
+            <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        </record>
+        <record id="skill_pump" model="hr.skill">
+            <field name="name">Pump Maintenance</field>
+            <field name="skill_type_id" ref="skill_type_techserv_certification"/>
+        </record>
+    </data>
+</odoo>

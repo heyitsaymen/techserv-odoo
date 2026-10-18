@@ -32,6 +32,9 @@
                 <attribute name="string">Technician</attribute>
                 <attribute name="widget">many2one_avatar_user</attribute>
             </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="technician_phone" widget="phone" invisible="not technician_phone"/>
+            </xpath>
         </field>
     </record>
 

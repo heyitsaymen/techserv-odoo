@@ -13,13 +13,18 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
     'depends': [
         'maintenance',
         'hr',
+        'hr_hourly_cost',
+        'hr_fleet',
+        'hr_skills',
         'product',
     ],
     'data': [
         'data/ir_sequence_data.xml',
         'data/maintenance_stage_data.xml',
         'views/maintenance_equipment_views.xml',
+        'data/hr_skill_data.xml',
         'views/maintenance_request_views.xml',
+        'views/hr_employee_views.xml',
     ],
     'demo': [
     ],
