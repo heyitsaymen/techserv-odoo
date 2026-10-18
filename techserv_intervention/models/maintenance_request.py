@@ -43,6 +43,14 @@ class MaintenanceRequest(models.Model):
     invoice_id = fields.Many2one(
         'account.move', string='Invoice', readonly=True, copy=False, index='btree_not_null',
         check_company=True, tracking=True)
+    # Données de clôture (saisies par le technicien dans l'assistant de clôture)
+    time_spent = fields.Float(string='Time Spent', tracking=True, help="Hours actually spent at the customer's.")
+    part_ids = fields.One2many('techserv.intervention.part', 'intervention_id', string='Parts Used')
+    picking_id = fields.Many2one(
+        'stock.picking', string='Parts Delivery', readonly=True, copy=False, check_company=True)
+    customer_signature = fields.Binary(string='Customer Signature', copy=False, attachment=True)
+    signed_by = fields.Char(string='Signed By', copy=False, tracking=True)
+    signed_on = fields.Datetime(string='Signed On', copy=False, tracking=True)
     # Champs standards dont on active le suivi (traçabilité « qui a changé quoi »)
     schedule_date = fields.Datetime(tracking=True)
     schedule_end = fields.Datetime(tracking=True)

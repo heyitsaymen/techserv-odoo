@@ -19,8 +19,10 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'product',
         'sale_management',
         'account',
+        'stock',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/maintenance_stage_data.xml',
         'data/hr_skill_data.xml',
@@ -32,6 +34,7 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'views/res_partner_views.xml',
         'views/account_move_views.xml',
         'report/report_invoice.xml',
+        'report/report_intervention.xml',
     ],
     'demo': [
     ],

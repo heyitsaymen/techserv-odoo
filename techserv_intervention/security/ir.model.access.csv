@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_techserv_intervention_part_user,techserv.intervention.part user,model_techserv_intervention_part,base.group_user,1,0,0,0
+access_techserv_intervention_part_manager,techserv.intervention.part manager,model_techserv_intervention_part,maintenance.group_equipment_manager,1,1,1,1

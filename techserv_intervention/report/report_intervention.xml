@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action d'impression : apparaît dans le menu « Imprimer » de l'intervention -->
+    <record id="action_report_intervention" model="ir.actions.report">
+        <field name="name">Intervention Report</field>
+        <field name="model">maintenance.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">techserv_intervention.report_intervention</field>
+        <field name="report_file">techserv_intervention.report_intervention</field>
+        <field name="print_report_name">'Intervention Report - %s' % (object.reference or object.name)</field>
+        <field name="binding_model_id" ref="maintenance.model_maintenance_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!--
+        Bon d'intervention. web.external_layout ajoute l'en-tête et le pied de page
+        de la société (logo, couleurs, adresse) configurés dans Paramètres >
+        Mise en page des documents : le PDF est « aux couleurs » de TechServ.
+    -->
+    <template id="report_intervention_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.customer_id.lang)"/>
+            <t t-set="address">
+                <div t-field="o.customer_id" class="mb-0"
+                     t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+            </t>
+            <div class="page">
+                <h2 class="mt-4">
+                    <span>Intervention Report</span>
+                    <span t-field="o.reference">INT/2026/00001</span>
+                </h2>
+
+                <div id="informations" class="row mt-4 mb-4">
+                    <div class="col" t-if="o.schedule_date">
+                        <strong>Scheduled Date</strong>
+                        <div t-field="o.schedule_date">2026-10-18 09:00</div>
+                    </div>
+                    <div class="col" t-if="o.user_id">
+                        <strong>Technician</strong>
+                        <div t-field="o.user_id">Technician</div>
+                    </div>
+                    <div class="col" t-if="o.equipment_id">
+                        <strong>Equipment</strong>
+                        <div t-field="o.equipment_id.name">Air conditioner</div>
+                    </div>
+                    <div class="col" t-if="o.equipment_id.serial_no">
+                        <strong>Serial Number</strong>
+                        <div t-field="o.equipment_id.serial_no">SN-0001</div>
+                    </div>
+                    <div class="col" t-if="o.equipment_id">
+                        <strong>Warranty</strong>
+                        <div t-if="o.equipment_id.warranty_date">
+                            until <span t-field="o.equipment_id.warranty_date">2027-01-01</span>
+                        </div>
+                        <div t-else="">None</div>
+                    </div>
+                </div>
+
+                <h5 t-field="o.name">Subject</h5>
+                <div t-if="o.description" t-field="o.description" class="mb-4"/>
+
+                <table class="table table-sm o_main_table mt-4" name="intervention_parts">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Description</th>
+                            <th class="text-end">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Time spent</td>
+                            <td class="text-end">
+                                <span t-field="o.time_spent" t-options='{"widget": "float_time"}'>01:30</span> h
+                            </td>
+                        </tr>
+                        <tr t-foreach="o.part_ids" t-as="part">
+                            <td><span t-field="part.product_id">Filter</span></td>
+                            <td class="text-end">
+                                <span t-field="part.quantity">1</span>
+                                <span t-field="part.product_uom_id">Units</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Signature du client (saisie à la clôture ou sur le portail) -->
+                <div class="row mt-5" name="signature">
+                    <div class="col-6 offset-6 text-center">
+                        <strong>Customer Signature</strong>
+                        <div t-if="o.customer_signature">
+                            <img t-att-src="image_data_uri(o.customer_signature)"
+                                 style="max-height: 4cm; max-width: 8cm;"/>
+                            <div t-field="o.signed_by">Customer name</div>
+                            <div t-if="o.signed_on" class="text-muted small">
+                                Signed on <span t-field="o.signed_on">2026-10-18 10:00</span>
+                            </div>
+                        </div>
+                        <div t-else="" class="border mt-2" style="height: 3cm;"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_intervention">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="techserv_intervention.report_intervention_document" t-lang="o.customer_id.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>
