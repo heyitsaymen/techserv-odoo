@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Alertes livrées sous forme de règles automatisées (base_automation) plutôt
+        que d'un ir.cron codé à la main : elles restent visibles et modifiables par
+        un administrateur (Paramètres > Technique > Règles automatisées), et le moteur
+        standard gère la fenêtre de temps (last_run) : chaque demande n'est traitée
+        qu'une fois. Elles restent testables (voir tests/test_alerts.py).
+    -->
+    <data noupdate="1">
+        <!-- 1) Demande urgente toujours pas planifiée 24 h après sa création -->
+        <record id="automation_urgent_unplanned" model="base.automation">
+            <field name="name">TechServ: alert managers about urgent requests not planned after 24 hours</field>
+            <field name="model_id" ref="maintenance.model_maintenance_request"/>
+            <field name="trigger">on_time_created</field>
+            <field name="trg_date_range">24</field>
+            <field name="trg_date_range_type">hour</field>
+            <field name="filter_domain">[('priority', '=', '3'), ('techserv_state', '=', 'received'), ('archive', '=', False)]</field>
+        </record>
+        <record id="action_urgent_unplanned" model="ir.actions.server">
+            <field name="name">Create an alert activity for the managers</field>
+            <field name="model_id" ref="maintenance.model_maintenance_request"/>
+            <field name="base_automation_id" ref="automation_urgent_unplanned"/>
+            <field name="usage">base_automation</field>
+            <field name="state">code</field>
+            <field name="code">records._techserv_alert_urgent_unplanned()</field>
+        </record>
+
+        <!-- 2) E-mail au client dès que l'intervention passe à « Planifiée » -->
+        <record id="automation_planned_email" model="base.automation">
+            <field name="name">TechServ: email the customer when the intervention is planned</field>
+            <field name="model_id" ref="maintenance.model_maintenance_request"/>
+            <field name="trigger">on_create_or_write</field>
+            <field name="trigger_field_ids" eval="[(6, 0, [ref('maintenance.field_maintenance_request__stage_id')])]"/>
+            <field name="filter_pre_domain">[('techserv_state', '!=', 'planned')]</field>
+            <field name="filter_domain">[('techserv_state', '=', 'planned'), ('customer_id', '!=', False)]</field>
+        </record>
+        <record id="action_planned_email" model="ir.actions.server">
+            <field name="name">Send the planning email to the customer</field>
+            <field name="model_id" ref="maintenance.model_maintenance_request"/>
+            <field name="base_automation_id" ref="automation_planned_email"/>
+            <field name="usage">base_automation</field>
+            <field name="state">mail_post</field>
+            <field name="mail_post_method">email</field>
+            <field name="template_id" ref="mail_template_intervention_planned"/>
+        </record>
+    </data>
+</odoo>

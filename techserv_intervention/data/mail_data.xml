@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Type d'activité dédié à l'alerte : sert aussi à éviter les doublons -->
+        <record id="mail_activity_type_urgent_unplanned" model="mail.activity.type">
+            <field name="name">Urgent Request Not Planned</field>
+            <field name="summary">Urgent request not planned after 24 hours</field>
+            <field name="icon">fa-exclamation-triangle</field>
+            <field name="decoration_type">warning</field>
+            <field name="res_model">maintenance.request</field>
+        </record>
+
+        <!-- E-mail envoyé au client quand son intervention passe à « Planifiée » -->
+        <record id="mail_template_intervention_planned" model="mail.template">
+            <field name="name">TechServ: Intervention Planned</field>
+            <field name="model_id" ref="maintenance.model_maintenance_request"/>
+            <field name="subject">Your intervention {{ object.reference }} is planned</field>
+            <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="partner_to">{{ object.customer_id.id }}</field>
+            <field name="lang">{{ object.customer_id.lang }}</field>
+            <field name="description">Sent to the customer when the intervention is planned</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="margin: 0; padding: 0;">
+    <p>Hello <t t-out="object.customer_id.name or ''">Customer</t>,</p>
+    <p>
+        Your intervention <strong t-out="object.reference or ''">INT/2026/00001</strong>
+        (<t t-out="object.name or ''">Air conditioner not cooling</t>) is planned on
+        <strong t-out="format_datetime(object.schedule_date, tz=object.customer_id.tz, dt_format='medium')">10/20/2026 09:00</strong>.
+    </p>
+    <p t-if="object.user_id">
+        Your technician will be <t t-out="object.user_id.name or ''">John</t>.
+    </p>
+    <p>Please keep this reference if you need to contact us.</p>
+    <p>Best regards,<br/><t t-out="object.company_id.name or ''">TechServ</t></p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>

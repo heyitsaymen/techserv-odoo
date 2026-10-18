@@ -210,6 +210,24 @@ class MaintenanceRequest(models.Model):
                 request.activity_schedule(
                     'mail.mail_activity_data_todo', summary=summary, note=note, user_id=user.id)
 
+    def _techserv_alert_urgent_unplanned(self):
+        """Appelée par la règle automatisée « urgente non planifiée après 24 h » :
+        une activité d'alerte pour chaque responsable de la société.
+        Pas de doublon : on ne recrée pas l'activité si elle existe déjà."""
+        activity_type = self.env.ref('techserv_intervention.mail_activity_type_urgent_unplanned')
+        for request in self:
+            if request.techserv_state != 'received' or request.priority != '3':
+                continue
+            already_alerted = request.activity_ids.filtered(
+                lambda a: a.activity_type_id == activity_type).user_id
+            for manager in request._techserv_get_managers() - already_alerted:
+                request.activity_schedule(
+                    activity_type_id=activity_type.id,
+                    user_id=manager.id,
+                    note=self.env._("Urgent request received on %s and still not planned.",
+                                    fields.Datetime.to_string(request.create_date)),
+                )
+
     def action_techserv_start(self):
         """Le technicien part chez le client : l'intervention passe « En cours »."""
         for request in self:

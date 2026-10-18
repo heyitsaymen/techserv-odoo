@@ -20,6 +20,8 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'sale_management',
         'account',
         'stock',
+        'mail',
+        'base_automation',
     ],
     'data': [
         'security/techserv_security.xml',
@@ -29,6 +31,8 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'data/maintenance_stage_data.xml',
         'data/hr_skill_data.xml',
         'data/product_data.xml',
+        'data/mail_data.xml',
+        'data/base_automation_data.xml',
         'wizard/intervention_wizard_views.xml',
         'views/maintenance_equipment_views.xml',
         'views/maintenance_request_views.xml',
