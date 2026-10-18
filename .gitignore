@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.swp
+.idea/
+.vscode/
+*.log
+.env
+# Notes personnelles (non livrées)
+notes/
+EXPLICATIONS.md

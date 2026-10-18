@@ -1,0 +1,35 @@
+# Lancement rapide pour le correcteur : Odoo 19 Community + PostgreSQL 16.
+#   docker compose up -d
+#   puis ouvrir http://localhost:8069 et créer une base (cocher « données de démonstration »),
+#   ou installer directement les modules en ligne de commande :
+#   docker compose run --rm odoo odoo -d techserv -i techserv_intervention,techserv_portal \
+#       --stop-after-init --db_host=db --db_user=odoo --db_password=odoo --with-demo
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - techserv-db:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:19.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      # Les deux modules du dépôt sont montés dans le dossier d'addons supplémentaires de l'image officielle
+      - ./techserv_intervention:/mnt/extra-addons/techserv_intervention
+      - ./techserv_portal:/mnt/extra-addons/techserv_portal
+      - techserv-data:/var/lib/odoo
+
+volumes:
+  techserv-db:
+  techserv-data:
