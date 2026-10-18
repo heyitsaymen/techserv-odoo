@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Formulaire équipement : héritage de la vue standard via xpath -->
+    <record id="maintenance_equipment_view_form_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.inherit.techserv</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_new_intervention" type="object" string="New Intervention"
+                            class="btn-primary" icon="fa-plus"/>
+                </header>
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="Under Warranty" bg_color="text-bg-success"
+                        invisible="not is_under_warranty or not active"/>
+            </xpath>
+            <xpath expr="//group[@name='service_info_group']/group[1]/field[@name='category_id']" position="before">
+                <field name="customer_id"/>
+                <field name="product_id"/>
+            </xpath>
+            <xpath expr="//field[@name='warranty_date']" position="after">
+                <field name="is_under_warranty"/>
+            </xpath>
+            <!-- Historique des interventions directement sur la fiche (en plus du smart button standard) -->
+            <xpath expr="//page[@name='product_information']" position="after">
+                <page string="Interventions" name="techserv_interventions">
+                    <field name="maintenance_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="request_date"/>
+                            <field name="schedule_date"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="stage_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_view_list_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.equipment.list.inherit.techserv</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_id"/>
+                <field name="product_id" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='serial_no']" position="after">
+                <field name="warranty_date" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_view_search_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.equipment.search.inherit.techserv</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_id"/>
+                <field name="product_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='under_maintenance']" position="after">
+                <separator/>
+                <!-- Utilise la méthode search= du champ calculé non stocké -->
+                <filter string="Under Warranty" name="under_warranty" domain="[('is_under_warranty', '=', True)]"/>
+                <filter string="Warranty Expired" name="warranty_expired" domain="[('is_under_warranty', '=', False)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='vendor']" position="before">
+                <filter string="Customer" name="groupby_customer" context="{'group_by': 'customer_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
