@@ -98,6 +98,18 @@ docker compose run --rm odoo odoo -d techserv_test -i techserv_intervention,tech
 | `responsable` | `techserv` | Responsable TechServ, sociétés Alger et Oran |
 | `technicien1`, `technicien2` | `techserv` | Techniciens (TechServ Alger) |
 | `technicien.oran` | `techserv` | Technicienne (TechServ Oran) |
+| `client` | `techserv` | Utilisateur **portail** de la Clinique Les Oliviers (bonus : `/my/interventions`) |
+
+> Astuce : si une autre base Odoo tourne sur la même machine (même adresse, autre port), le
+> navigateur partage le cookie de session entre les deux et la connexion échoue (« Session
+> expired »). Utiliser une fenêtre privée ou le nom d'hôte de la machine plutôt que son IP.
+
+### Apparence (optionnel)
+
+En Community, le sélecteur d'applications est une liste. Pour retrouver une grille d'icônes
+(comme en Enterprise), on peut ajouter le module OCA **`web_responsive`**
+(<https://github.com/OCA/web>). Il n'est volontairement **pas** une dépendance des modules
+TechServ : ils fonctionnent sur un Odoo 19 Community standard.
 
 ---
 

@@ -5,7 +5,6 @@
              (quantité = temps passé, prix modifiable par la comptable) -->
         <record id="product_labour" model="product.product">
             <field name="name">Labour</field>
-            <field name="default_code">TS-LABOUR</field>
             <field name="type">service</field>
             <field name="uom_id" ref="uom.product_uom_hour"/>
             <field name="list_price">45.0</field>

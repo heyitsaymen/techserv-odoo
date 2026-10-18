@@ -11,6 +11,12 @@
     <!-- ===================== Sociétés ===================== -->
     <record id="base.main_company" model="res.company">
         <field name="name">TechServ Alger</field>
+        <field name="logo" type="base64" file="techserv_intervention/static/img/techserv_logo.png"/>
+        <!-- On remplace toute l'adresse de la société de démo standard (San Francisco) -->
+        <field name="street">12 rue Hassiba Ben Bouali</field>
+        <field name="street2" eval="False"/>
+        <field name="zip">16000</field>
+        <field name="state_id" eval="False"/>
         <field name="city">Alger</field>
         <field name="country_id" ref="base.dz"/>
         <field name="email">contact@techserv-alger.example.com</field>
@@ -18,6 +24,9 @@
     </record>
     <record id="company_oran" model="res.company">
         <field name="name">TechServ Oran</field>
+        <field name="logo" type="base64" file="techserv_intervention/static/img/techserv_logo.png"/>
+        <field name="street">Boulevard de la Soummam</field>
+        <field name="zip">31000</field>
         <field name="city">Oran</field>
         <field name="country_id" ref="base.dz"/>
         <field name="email">contact@techserv-oran.example.com</field>
@@ -192,6 +201,18 @@
         <field name="country_id" ref="base.dz"/>
         <field name="email">maintenance@agrosud.example.com</field>
         <field name="company_id" ref="company_oran"/>
+    </record>
+
+    <!-- Accès portail du client Clinique Les Oliviers (bonus techserv_portal) -->
+    <record id="user_portal_clinic" model="res.users">
+        <field name="name">Dr. Amrani (Clinique Les Oliviers)</field>
+        <field name="login">client</field>
+        <field name="password">techserv</field>
+        <field name="email">amrani@clinique-oliviers.example.com</field>
+        <field name="parent_id" ref="partner_clinic"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_portal')])]"/>
     </record>
 
     <!-- ===================== Produits ===================== -->

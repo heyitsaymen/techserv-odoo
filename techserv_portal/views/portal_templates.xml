@@ -22,7 +22,7 @@
         </xpath>
         <div id="portal_service_category" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="icon" t-value="'/maintenance/static/description/icon.svg'"/>
+                <t t-set="icon" t-value="'/techserv_intervention/static/description/icon.png'"/>
                 <t t-set="title">Interventions</t>
                 <t t-set="url" t-value="'/my/interventions'"/>
                 <t t-set="text">Follow your interventions and sign the reports</t>
@@ -168,7 +168,9 @@
                             </p>
                             <t t-call="portal.signature_form">
                                 <t t-set="call_url" t-value="intervention.get_portal_url(suffix='/sign')"/>
-                                <t t-set="default_name" t-value="intervention.customer_id.name"/>
+                                <!-- Nom proposé : la personne connectée (c'est elle qui signe), sinon le client -->
+                                <t t-set="default_name"
+                                   t-value="(not request.env.user._is_public() and request.env.user.name) or intervention.customer_id.name"/>
                                 <t t-set="send_label">Sign</t>
                             </t>
                         </main>
