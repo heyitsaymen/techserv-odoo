@@ -23,6 +23,9 @@
             <xpath expr="//field[@name='equipment_id']" position="before">
                 <field name="customer_id"/>
             </xpath>
+            <xpath expr="//field[@name='request_date']" position="before">
+                <field name="sale_order_id" invisible="not sale_order_id"/>
+            </xpath>
             <!-- Seuls les équipements du client choisi sont proposés (=? : ignoré si pas de client) -->
             <xpath expr="//field[@name='equipment_id']" position="attributes">
                 <attribute name="domain">[('customer_id', '=?', customer_id)]</attribute>

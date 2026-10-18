@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Smart buttons sur la fiche contact -->
+    <record id="res_partner_view_form_inherit_techserv" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.techserv</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_equipment" type="object" class="oe_stat_button"
+                        icon="fa-cogs" invisible="equipment_count == 0">
+                    <field name="equipment_count" widget="statinfo" string="Equipment"/>
+                </button>
+                <button name="action_view_interventions" type="object" class="oe_stat_button"
+                        icon="fa-wrench" invisible="intervention_count == 0">
+                    <field name="intervention_count" widget="statinfo" string="Interventions"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filtre « A des équipements » dans la liste des contacts -->
+    <record id="res_partner_view_search_inherit_techserv" model="ir.ui.view">
+        <field name="name">res.partner.search.inherit.techserv</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='type_company']" position="after">
+                <separator/>
+                <filter string="Has Equipment" name="has_equipment" domain="[('equipment_ids', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

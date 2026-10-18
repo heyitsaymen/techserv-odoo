@@ -34,6 +34,11 @@ class MaintenanceRequest(models.Model):
     technician_employee_id = fields.Many2one(
         'hr.employee.public', string='Technician Employee', compute='_compute_technician_employee_id')
     technician_phone = fields.Char(string='Technician Mobile', compute='_compute_technician_employee_id')
+    # Lien avec la vente d'origine (création automatique à la confirmation du devis)
+    sale_order_id = fields.Many2one(
+        'sale.order', string='Sales Order', readonly=True, copy=False, index='btree_not_null',
+        check_company=True, tracking=True)
+    sale_line_id = fields.Many2one('sale.order.line', string='Sales Order Line', readonly=True, copy=False)
     # Champs standards dont on active le suivi (traçabilité « qui a changé quoi »)
     schedule_date = fields.Datetime(tracking=True)
     schedule_end = fields.Datetime(tracking=True)
@@ -151,6 +156,14 @@ class MaintenanceRequest(models.Model):
         if not stage:
             raise UserError(self.env._("No stage is configured for the state '%s'.", state))
         return stage
+
+    def _techserv_notify_team(self, summary, note=None):
+        """Prévient l'équipe technique dans Odoo : une activité « À faire » pour
+        chaque membre de l'équipe de maintenance standard (maintenance.team)."""
+        for request in self:
+            for user in request.maintenance_team_id.member_ids:
+                request.activity_schedule(
+                    'mail.mail_activity_data_todo', summary=summary, note=note, user_id=user.id)
 
     def action_techserv_start(self):
         """Le technicien part chez le client : l'intervention passe « En cours »."""
