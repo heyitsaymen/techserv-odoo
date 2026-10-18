@@ -201,7 +201,7 @@ voir le fonctionnement du bouton *Tester*.
 
 ## 5. Points techniques Odoo 19
 
-Vérifiés dans le code source 19.0 (pas de mémoire des versions précédentes) :
+Vérifiés directement dans le code source de la branche 19.0 :
 
 - Contraintes SQL : attribut `models.Constraint(...)` (remplace `_sql_constraints`).
 - Groupes : `res.groups.privilege` (`privilege_id`), `user_ids`, `implied_ids` ; actions : `group_ids`.
