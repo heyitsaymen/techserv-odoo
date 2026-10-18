@@ -40,7 +40,7 @@ class TechservInterventionPlanWizard(models.TransientModel):
     def action_plan(self):
         self.ensure_one()
         interventions = self.intervention_ids
-        interventions._check_techserv_manager(self.env._("plan interventions"))
+        interventions._check_techserv_manager(self.env._("Only TechServ managers can plan interventions."))
         wrong = interventions.filtered(lambda r: r.techserv_state not in ('received', 'planned'))
         if wrong:
             raise UserError(self.env._(

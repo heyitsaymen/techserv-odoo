@@ -1,0 +1,1095 @@
+# Traduction française du module techserv_intervention.
+# This file contains the translation of the following modules:
+# 	* techserv_intervention
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260910\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-18 10:49+0000\n"
+"PO-Revision-Date: 2026-10-18 10:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "%(technician)s already has the intervention %(other)s at that time."
+msgstr "%(technician)s a déjà l'intervention %(other)s sur ce créneau."
+
+#. module: techserv_intervention
+#: model:ir.actions.report,print_report_name:techserv_intervention.action_report_intervention
+msgid "'Intervention Report - %s' % (object.reference or object.name)"
+msgstr "'Bon d’intervention - %s' % (object.reference or object.name)"
+
+#. module: techserv_intervention
+#: model:mail.template,body_html:techserv_intervention.mail_template_intervention_planned
+msgid ""
+"<div style=\"margin: 0; padding: 0;\">\n"
+"    <p>Hello <t t-out=\"object.customer_id.name or ''\">Customer</t>,</p>\n"
+"    <p>\n"
+"        Your intervention <strong t-out=\"object.reference or ''\">INT/2026/00001</strong>\n"
+"        (<t t-out=\"object.name or ''\">Air conditioner not cooling</t>) is planned on\n"
+"        <strong t-out=\"format_datetime(object.schedule_date, tz=object.customer_id.tz, dt_format='medium')\">10/20/2026 09:00</strong>.\n"
+"    </p>\n"
+"    <p t-if=\"object.user_id\">\n"
+"        Your technician will be <t t-out=\"object.user_id.name or ''\">John</t>.\n"
+"    </p>\n"
+"    <p>Please keep this reference if you need to contact us.</p>\n"
+"    <p>Best regards,<br/><t t-out=\"object.company_id.name or ''\">TechServ</t></p>\n"
+"</div>\n"
+"            "
+msgstr "<div style=\"margin: 0; padding: 0;\">\n    <p>Bonjour <t t-out=\"object.customer_id.name or ''\">Client</t>,</p>\n    <p>\n        Votre intervention <strong t-out=\"object.reference or ''\">INT/2026/00001</strong>\n        (<t t-out=\"object.name or ''\">Climatiseur en panne</t>) est planifiée le\n        <strong t-out=\"format_datetime(object.schedule_date, tz=object.customer_id.tz, dt_format='medium')\">10/20/2026 09:00</strong>.\n    </p>\n    <p t-if=\"object.user_id\">\n        Votre technicien sera <t t-out=\"object.user_id.name or ''\">John</t>.\n    </p>\n    <p>Merci de conserver cette référence si vous devez nous contacter.</p>\n    <p>Cordialement,<br/><t t-out=\"object.company_id.name or ''\">TechServ</t></p>\n</div>\n            "
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<span>Intervention Report</span>"
+msgstr "<span>Bon d'intervention</span>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Customer Signature</strong>"
+msgstr "<strong>Signature du client</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Equipment</strong>"
+msgstr "<strong>Équipement</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Scheduled Date</strong>"
+msgstr "<strong>Date planifiée</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Serial Number</strong>"
+msgstr "<strong>Numéro de série</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Technician</strong>"
+msgstr "<strong>Technicien</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "<strong>Warranty</strong>"
+msgstr "<strong>Garantie</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "Air conditioner"
+msgstr "Climatiseur"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid ""
+"An intervention can only be closed with the customer's signature: use the "
+"Close button."
+msgstr "Une intervention ne peut être clôturée qu'avec la signature du client : utilisez le bouton Clôturer."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid ""
+"An intervention can only be marked as invoiced by the invoicing wizard."
+msgstr "Une intervention ne peut passer à « Facturée » que par l'assistant de facturation."
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_plan_wizard_view_form
+msgid "Assign"
+msgstr "Attribuer"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_plan_wizard_view_form
+msgid "Assign Interventions"
+msgstr "Attribuer des interventions"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_techserv_intervention_plan_wizard
+msgid "Assign Interventions to a Technician"
+msgstr "Attribuer des interventions à un technicien"
+
+#. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_intervention_plan_wizard
+msgid "Assign to a Technician"
+msgstr "Attribuer à un technicien"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__cancel
+msgid "Cancelled"
+msgstr "Annulée"
+
+#. module: techserv_intervention
+#: model:maintenance.equipment.category,name:techserv_intervention.category_ac
+msgid "Climatisation"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_clinic_ac
+msgid "Climatiseur bloc opératoire"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_agro_ac
+msgid "Climatiseur chambre froide"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_split_ac_product_template
+msgid "Climatiseur split 12000 BTU"
+msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_close_wizard_view_form
+msgid "Close"
+msgstr "Clôturer"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_techserv_intervention_close_wizard
+msgid "Close an Intervention"
+msgstr "Clôturer une intervention"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_techserv_intervention_close_wizard_line
+msgid "Close an Intervention - Part Line"
+msgstr "Clôturer une intervention - ligne de pièce"
+
+#. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_intervention_close_wizard
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_close_wizard_view_form
+msgid "Close the Intervention"
+msgstr "Clôturer l'intervention"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_form_inherit_techserv
+msgid "Closing"
+msgstr "Clôture"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__company_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_part_capacitor_product_template
+msgid "Condensateur 35 µF"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_maintenance_contract_product_template
+msgid "Contrat de maintenance annuel"
+msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_invoice_wizard_view_form
+msgid "Create Invoices"
+msgstr "Créer les factures"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_product_product__create_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_product_template__create_intervention
+msgid "Create an Intervention"
+msgstr "Crée une intervention"
+
+#. module: techserv_intervention
+#: model:ir.actions.server,name:techserv_intervention.action_urgent_unplanned
+msgid "Create an alert activity for the managers"
+msgstr "Créer une activité d'alerte pour les responsables"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__create_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__create_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__create_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__create_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/sale_order.py:0
+msgid "Created from the confirmed sales order %s."
+msgstr "Créée depuis la commande confirmée %s."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__create_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__create_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__create_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__create_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__customer_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__customer_id
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_search_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
+msgid "Customer"
+msgstr "Client"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__customer_signature
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__signature
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_close_wizard_view_form
+msgid "Customer Signature"
+msgstr "Signature du client"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Customer name"
+msgstr "Nom du client"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_equipment__customer_id
+msgid "Customer where the equipment is installed."
+msgstr "Client chez qui l'équipement est installé."
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "Date"
+msgstr "Date"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_request__schedule_date
+msgid ""
+"Date the maintenance team plans the maintenance.  It should not differ much "
+"from the Request Date. "
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__default_duration
+msgid "Default Duration"
+msgstr "Durée par défaut"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_techserv_intervention_part__product_uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Description"
+msgstr "Description"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_close_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_invoice_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_plan_wizard_view_form
+msgid "Discard"
+msgstr "Annuler"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_move__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_stage__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_product_template__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_sale_order__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__display_name
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__done
+msgid "Done"
+msgstr "Terminée"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_techserv_intervention_plan_wizard__default_duration
+msgid "Duration (in hours) used for interventions that have no duration yet."
+msgstr "Durée (en heures) utilisée pour les interventions qui n'ont pas encore de durée."
+
+#. module: techserv_intervention
+#: model:hr.skill,name:techserv_intervention.skill_electrical_clearance
+msgid "Electrical Clearance"
+msgstr "Habilitation électrique"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_hr_employee
+msgid "Employee"
+msgstr "Employé"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__equipment_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__equipment_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_users__equipment_ids
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.res_partner_view_form_inherit_techserv
+msgid "Equipment"
+msgstr "Équipement"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__equipment_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_users__equipment_count
+msgid "Equipment Count"
+msgstr "Nombre d'équipements"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_request__schedule_end
+msgid "Expected completion date and time of the maintenance request."
+msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Filter"
+msgstr "Filtre"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_part_filter_product_template
+msgid "Filtre à air pour climatiseur"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_part_seal_product_template
+msgid "Garniture mécanique de pompe"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:hr.skill,name:techserv_intervention.skill_generator
+msgid "Generator Maintenance"
+msgstr "Maintenance des groupes électrogènes"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_generator_product_template
+msgid "Groupe électrogène 20 kVA"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_clinic_generator
+msgid "Groupe électrogène de secours"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_bakery_generator
+msgid "Groupe électrogène fournil"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment.category,name:techserv_intervention.category_generator
+msgid "Groupes électrogènes"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__grouping
+msgid "Grouping"
+msgstr "Regroupement"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.res_partner_view_search_inherit_techserv
+msgid "Has Equipment"
+msgstr "A des équipements"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_request__time_spent
+msgid "Hours actually spent at the customer's."
+msgstr "Heures réellement passées chez le client."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_move__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_hr_employee__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_stage__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_product_template__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_sale_order__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "INT/2026/00001"
+msgstr ""
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_equipment.py:0
+msgid "Import Template for Customer Equipment"
+msgstr "Modèle d'import du parc client"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__in_progress
+msgid "In Progress"
+msgstr "En cours"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__effective_date
+msgid "Installation Date"
+msgstr "Date d'installation"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_ac_installation_product_template
+msgid "Installation de climatiseur"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__intervention_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__intervention_id
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "Intervention"
+msgstr "Intervention"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_bank_statement_line__intervention_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_move__intervention_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__intervention_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_res_users__intervention_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_sale_order__intervention_count
+msgid "Intervention Count"
+msgstr "Nombre d'interventions"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_techserv_intervention_part
+msgid "Intervention Part"
+msgstr "Pièce d'intervention"
+
+#. module: techserv_intervention
+#: model:ir.actions.report,name:techserv_intervention.action_report_intervention
+msgid "Intervention Report"
+msgstr "Bon d'intervention"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_equipment.py:0
+msgid "Intervention on %s"
+msgstr "Intervention sur %s"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_bank_statement_line__intervention_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_account_move__intervention_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_hr_employee__intervention_count
+#: model:ir.model.fields,field_description:techserv_intervention.field_sale_order__intervention_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__intervention_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__intervention_ids
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.account_move_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.hr_employee_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.res_partner_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.sale_order_view_form_inherit_techserv
+msgid "Interventions"
+msgstr "Interventions"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__invoice_id
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_intervention_invoice_wizard
+#: model:ir.model,name:techserv_intervention.model_techserv_intervention_invoice_wizard
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_invoice_interventions
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_invoice_wizard_view_form
+msgid "Invoice Interventions"
+msgstr "Facturer les interventions"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__invoiced
+#: model:maintenance.stage,name:techserv_intervention.stage_invoiced
+msgid "Invoiced"
+msgstr "Facturée"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_part_belt_product_template
+msgid "Kit courroie groupe électrogène"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_labour_product_template
+msgid "Labour"
+msgstr "Main-d'œuvre"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Labour covered by the warranty (until %s)."
+msgstr "Main-d'œuvre couverte par la garantie (jusqu'au %s)."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__write_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__write_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__write_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__write_uid
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__write_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__write_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__write_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__write_date
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_maintenance_equipment
+msgid "Maintenance Equipment"
+msgstr "Équipement de maintenance"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_maintenance_request
+msgid "Maintenance Request"
+msgstr "Demande de maintenance"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_maintenance_stage
+msgid "Maintenance Stage"
+msgstr "Étape de maintenance"
+
+#. module: techserv_intervention
+#: model:res.groups,name:techserv_intervention.group_techserv_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_equipment.py:0
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_form_inherit_techserv
+msgid "New Intervention"
+msgstr "Nouvelle intervention"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/sale_order.py:0
+msgid "New intervention to plan"
+msgstr "Nouvelle intervention à planifier"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "No stage is configured for the state '%s'."
+msgstr "Aucune étape n'est configurée pour l'état « %s »."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "No warehouse is configured for the company %s."
+msgstr "Aucun entrepôt n'est configuré pour la société %s."
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "None"
+msgstr "Aucune"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__techserv_intervention_invoice_wizard__grouping__customer
+msgid "One invoice per customer"
+msgstr "Une facture par client"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__techserv_intervention_invoice_wizard__grouping__intervention
+msgid "One invoice per intervention"
+msgstr "Une facture par intervention"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only TechServ managers can cancel interventions."
+msgstr "Seuls les responsables TechServ peuvent annuler des interventions."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only TechServ managers can delete interventions."
+msgstr "Seuls les responsables TechServ peuvent supprimer des interventions."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only TechServ managers can invoice interventions."
+msgstr "Seuls les responsables TechServ peuvent facturer des interventions."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_plan_wizard.py:0
+msgid "Only TechServ managers can plan interventions."
+msgstr "Seuls les responsables TechServ peuvent planifier des interventions."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only TechServ managers can reopen interventions."
+msgstr "Seuls les responsables TechServ peuvent rouvrir des interventions."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only done interventions that are not invoiced yet can be invoiced: %s"
+msgstr "Seules les interventions terminées et non encore facturées peuvent être facturées : %s"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Only planned interventions can be started."
+msgstr "Seules les interventions planifiées peuvent être démarrées."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_close_wizard.py:0
+msgid "Only planned or in progress interventions can be closed."
+msgstr "Seules les interventions planifiées ou en cours peuvent être clôturées."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_plan_wizard.py:0
+msgid "Only received or planned interventions can be assigned: %s"
+msgstr "Seules les interventions reçues ou planifiées peuvent être attribuées : %s"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__picking_id
+msgid "Parts Delivery"
+msgstr "Sortie des pièces"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__part_ids
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__line_ids
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_close_wizard_view_form
+msgid "Parts Used"
+msgstr "Pièces utilisées"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__planned
+#: model:maintenance.stage,name:techserv_intervention.stage_planned
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
+msgid "Planned"
+msgstr "Planifiée"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_close_wizard.py:0
+msgid "Please enter the time spent."
+msgstr "Veuillez saisir le temps passé."
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_agro_pump
+msgid "Pompe de forage"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment,name:techserv_intervention.equipment_residence_pump
+msgid "Pompe de relevage"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:product.template,name:techserv_intervention.product_pump_product_template
+msgid "Pompe immergée 2 CV"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:maintenance.equipment.category,name:techserv_intervention.category_pump
+msgid "Pompes"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__priority
+msgid "Priority"
+msgstr "Priorité"
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_product_template
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__product_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__product_id
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__product_id
+msgid "Product"
+msgstr "Produit"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_equipment__product_id
+msgid "Product (model) of the installed equipment."
+msgstr "Produit (modèle) de l'équipement installé."
+
+#. module: techserv_intervention
+#: model:hr.skill,name:techserv_intervention.skill_pump
+msgid "Pump Maintenance"
+msgstr "Maintenance des pompes"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__quantity
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__quantity
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__reference
+msgid "Reference"
+msgstr "Référence"
+
+#. module: techserv_intervention
+#: model:hr.skill,name:techserv_intervention.skill_refrigerant_handling
+msgid "Refrigerant Handling Certificate"
+msgstr "Attestation de capacité fluides frigorigènes"
+
+#. module: techserv_intervention
+#: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__received
+msgid "Request Received"
+msgstr "Demande reçue"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "SN-0001"
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model,name:techserv_intervention.model_sale_order
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__sale_order_id
+msgid "Sales Order"
+msgstr "Commande client"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__sale_line_id
+msgid "Sales Order Line"
+msgstr "Ligne de commande"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__schedule_date
+msgid "Scheduled Date"
+msgstr "Date planifiée"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__schedule_end
+msgid "Scheduled End"
+msgstr "Fin planifiée"
+
+#. module: techserv_intervention
+#: model:res.groups,comment:techserv_intervention.group_techserv_manager
+msgid ""
+"Sees and manages all interventions: planning, cancellation, deletion and "
+"invoicing."
+msgstr "Voit et gère toutes les interventions : planification, annulation, suppression et facturation."
+
+#. module: techserv_intervention
+#: model:res.groups,comment:techserv_intervention.group_techserv_technician
+msgid ""
+"Sees only the interventions assigned to him. Can start and close them, but "
+"cannot plan, cancel, delete or invoice."
+msgstr "Ne voit que les interventions qui lui sont attribuées. Peut les démarrer et les clôturer, mais ne peut ni planifier, ni annuler, ni supprimer, ni facturer."
+
+#. module: techserv_intervention
+#: model:ir.actions.server,name:techserv_intervention.action_planned_email
+msgid "Send the planning email to the customer"
+msgstr "Envoyer l'e-mail de planification au client"
+
+#. module: techserv_intervention
+#: model:mail.template,description:techserv_intervention.mail_template_intervention_planned
+msgid "Sent to the customer when the intervention is planned"
+msgstr "Envoyé au client quand l'intervention est planifiée"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__serial_no
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_invoice_document_inherit_techserv
+msgid "Serial Number"
+msgstr "Numéro de série"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__signed_by
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__signed_by
+msgid "Signed By"
+msgstr "Signé par"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__signed_on
+msgid "Signed On"
+msgstr "Signé le"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Signed on"
+msgstr "Signé le"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__start_datetime
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_form_inherit_techserv
+msgid "Start"
+msgstr "Démarrer"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__move_id
+msgid "Stock Move"
+msgstr "Mouvement de stock"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Subject"
+msgstr "Sujet"
+
+#. module: techserv_intervention
+#: model:res.groups.privilege,name:techserv_intervention.res_groups_privilege_techserv
+msgid "TechServ Interventions"
+msgstr "Interventions TechServ"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__techserv_state
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_stage__techserv_state
+msgid "TechServ State"
+msgstr "État TechServ"
+
+#. module: techserv_intervention
+#: model:mail.template,name:techserv_intervention.mail_template_intervention_planned
+msgid "TechServ: Intervention Planned"
+msgstr "TechServ : intervention planifiée"
+
+#. module: techserv_intervention
+#: model:base.automation,name:techserv_intervention.automation_urgent_unplanned
+msgid ""
+"TechServ: alert managers about urgent requests not planned after 24 hours"
+msgstr "TechServ : alerter les responsables des urgences non planifiées après 24 heures"
+
+#. module: techserv_intervention
+#: model:base.automation,name:techserv_intervention.automation_planned_email
+msgid "TechServ: email the customer when the intervention is planned"
+msgstr "TechServ : e-mail au client quand l'intervention est planifiée"
+
+#. module: techserv_intervention
+#: model:hr.skill.type,name:techserv_intervention.skill_type_techserv_certification
+msgid "Technical Certifications"
+msgstr "Certifications techniques"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_request__techserv_state
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_stage__techserv_state
+msgid "Technical state used by the TechServ business rules."
+msgstr "État technique utilisé par les règles métier TechServ."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__user_id
+#: model:res.groups,name:techserv_intervention.group_techserv_technician
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Technician"
+msgstr "Technicien"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__technician_employee_id
+msgid "Technician Employee"
+msgstr "Employé technicien"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__technician_phone
+msgid "Technician Mobile"
+msgstr "Mobile du technicien"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_close_wizard.py:0
+msgid "The customer must sign the intervention report before closing."
+msgstr "Le client doit signer le bon d'intervention avant la clôture."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_plan_wizard.py:0
+msgid "The default duration must be positive."
+msgstr "La durée par défaut doit être positive."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid ""
+"The intervention %s has already started: it can no longer be cancelled."
+msgstr "L'intervention %s a déjà commencé : elle ne peut plus être annulée."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "The intervention %s has already started: it cannot be deleted."
+msgstr "L'intervention %s a déjà commencé : elle ne peut pas être supprimée."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid ""
+"The intervention %s needs a technician and a scheduled date to be planned."
+msgstr "L'intervention %s doit avoir un technicien et une date planifiée pour être planifiée."
+
+#. module: techserv_intervention
+#: model:ir.model.constraint,message:techserv_intervention.constraint_maintenance_request_reference_uniq
+msgid "The intervention reference must be unique!"
+msgstr "La référence de l'intervention doit être unique !"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid ""
+"The parts delivery %(picking)s could not be validated (status: %(state)s)."
+msgstr "Le bon de sortie des pièces %(picking)s n'a pas pu être validé (statut : %(state)s)."
+
+#. module: techserv_intervention
+#: model:ir.model.constraint,message:techserv_intervention.constraint_techserv_intervention_part_quantity_positive
+msgid "The quantity of a part must be positive."
+msgstr "La quantité d'une pièce doit être positive."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/wizard/intervention_invoice_wizard.py:0
+msgid "There is no intervention to invoice."
+msgstr "Il n'y a aucune intervention à facturer."
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "These interventions have no customer: %s"
+msgstr "Ces interventions n'ont pas de client : %s"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_equipment__effective_date
+msgid "This date will be used to compute the Mean Time Between Failure."
+msgstr ""
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__time_spent
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard__time_spent
+msgid "Time Spent"
+msgstr "Temps passé"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Time spent"
+msgstr "Temps passé"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
+msgid "To Invoice"
+msgstr "À facturer"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
+msgid "To Plan"
+msgstr "À planifier"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__is_under_warranty
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_form_inherit_techserv
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_search_inherit_techserv
+msgid "Under Warranty"
+msgstr "Sous garantie"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_maintenance_request__reference
+msgid "Unique reference given to the customer, generated by a sequence."
+msgstr "Référence unique donnée au client, générée par une séquence."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_part__product_uom_id
+msgid "Unit"
+msgstr "Unité"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "Units"
+msgstr "Unités"
+
+#. module: techserv_intervention
+#: model:mail.activity.type,name:techserv_intervention.mail_activity_type_urgent_unplanned
+msgid "Urgent Request Not Planned"
+msgstr "Demande urgente non planifiée"
+
+#. module: techserv_intervention
+#: model:mail.activity.type,summary:techserv_intervention.mail_activity_type_urgent_unplanned
+msgid "Urgent request not planned after 24 hours"
+msgstr "Demande urgente non planifiée après 24 heures"
+
+#. module: techserv_intervention
+#. odoo-python
+#: code:addons/techserv_intervention/models/maintenance_request.py:0
+msgid "Urgent request received on %s and still not planned."
+msgstr "Demande urgente reçue le %s et toujours pas planifiée."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_equipment__warranty_date
+msgid "Warranty Expiration Date"
+msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_search_inherit_techserv
+msgid "Warranty Expired"
+msgstr "Garantie expirée"
+
+#. module: techserv_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_product_product__create_intervention
+#: model:ir.model.fields,help:techserv_intervention.field_product_template__create_intervention
+msgid ""
+"When a sales order containing this product is confirmed, an intervention is "
+"automatically created and the technical team is notified."
+msgstr "À la confirmation d'une commande contenant ce produit, une intervention est créée automatiquement et l'équipe technique est prévenue."
+
+#. module: techserv_intervention
+#: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_close_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Assistant"
+
+#. module: techserv_intervention
+#: model:mail.template,subject:techserv_intervention.mail_template_intervention_planned
+msgid "Your intervention {{ object.reference }} is planned"
+msgstr "Votre intervention {{ object.reference }} est planifiée"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "h"
+msgstr "h"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
+msgid "until"
+msgstr "jusqu'au"
+
+#. module: techserv_intervention
+#: model:maintenance.team,name:techserv_intervention.team_oran
+msgid "Équipe Oran"
+msgstr ""
+
+
+# Étapes standard du module Maintenance renommées par ce module (données XML) :
+# l'export ne les contient pas car leur identifiant appartient au module maintenance.
+#. module: techserv_intervention
+#: model:maintenance.stage,name:maintenance.stage_0
+msgid "Request Received"
+msgstr "Demande reçue"
+
+#. module: techserv_intervention
+#: model:maintenance.stage,name:maintenance.stage_1
+msgid "In Progress"
+msgstr "En cours"
+
+#. module: techserv_intervention
+#: model:maintenance.stage,name:maintenance.stage_3
+msgid "Done"
+msgstr "Terminée"
+
+#. module: techserv_intervention
+#: model:maintenance.stage,name:maintenance.stage_4
+msgid "Cancelled"
+msgstr "Annulée"

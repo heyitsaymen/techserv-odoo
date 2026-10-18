@@ -1,0 +1,239 @@
+# Traduction française du module techserv_portal.
+# This file contains the translation of the following modules:
+# 	* techserv_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260910\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-18 10:49+0000\n"
+"PO-Revision-Date: 2026-10-18 10:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "<i class=\"fa fa-download\"/> Download the report"
+msgstr "<i class=\"fa fa-download\"/> Télécharger le bon"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "<i class=\"fa fa-pencil\"/> Sign the report"
+msgstr "<i class=\"fa fa-pencil\"/> Signer le bon"
+
+#. module: techserv_portal
+#: model:ir.model.fields,field_description:techserv_portal.field_maintenance_request__access_warning
+msgid "Access warning"
+msgstr "Avertissement d'accès"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "By signing, you confirm the intervention"
+msgstr "En signant, vous confirmez l'intervention"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Close"
+msgstr "Clôturer"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Communication history"
+msgstr "Historique des échanges"
+
+#. module: techserv_portal
+#: model:ir.model.fields,help:techserv_portal.field_maintenance_request__access_url
+msgid "Customer Portal URL"
+msgstr "URL du portail client"
+
+#. module: techserv_portal
+#: model:ir.model.fields,field_description:techserv_portal.field_maintenance_request__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Equipment"
+msgstr "Équipement"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_home_intervention
+msgid "Follow your interventions and sign the reports"
+msgstr "Suivez vos interventions et signez les bons"
+
+#. module: techserv_portal
+#: model:ir.model.fields,field_description:techserv_portal.field_maintenance_request__id
+msgid "ID"
+msgstr "ID"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Intervention report signed online by %s."
+msgstr "Bon d'intervention signé en ligne par %s."
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_breadcrumbs_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_home_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Interventions"
+msgstr "Interventions"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Invalid intervention."
+msgstr "Intervention invalide."
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Invalid signature data."
+msgstr "Signature invalide."
+
+#. module: techserv_portal
+#: model:ir.model,name:techserv_portal.model_maintenance_request
+msgid "Maintenance Request"
+msgstr "Demande de maintenance"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Newest"
+msgstr "Plus récentes"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Parts Used"
+msgstr "Pièces utilisées"
+
+#. module: techserv_portal
+#: model:ir.model.fields,field_description:techserv_portal.field_maintenance_request__access_url
+msgid "Portal Access URL"
+msgstr "URL d'accès au portail"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Reference"
+msgstr "Référence"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Scheduled"
+msgstr "Planifiée le"
+
+#. module: techserv_portal
+#: model:ir.model.fields,field_description:techserv_portal.field_maintenance_request__access_token
+msgid "Security Token"
+msgstr "Jeton de sécurité"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Serial Number"
+msgstr "Numéro de série"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Sign"
+msgstr "Signer"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Sign the intervention report"
+msgstr "Signer le bon d'intervention"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Signature"
+msgstr "Signature"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Signature is missing."
+msgstr "La signature est manquante."
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Signed by"
+msgstr "Signé par"
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "Stage"
+msgstr "Étape"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Status"
+msgstr "Statut"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "Subject"
+msgstr "Sujet"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Technician"
+msgstr "Technicien"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Thank you, the intervention report has been signed."
+msgstr "Merci, le bon d'intervention a été signé."
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "There are currently no interventions for your account."
+msgstr "Il n'y a actuellement aucune intervention pour votre compte."
+
+#. module: techserv_portal
+#. odoo-python
+#: code:addons/techserv_portal/controllers/portal.py:0
+msgid "This intervention cannot be signed."
+msgstr "Cette intervention ne peut pas être signée."
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Time Spent"
+msgstr "Temps passé"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_interventions
+msgid "To sign"
+msgstr "À signer"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "Warranty"
+msgstr "Garantie"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "h"
+msgstr "h"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "on behalf of"
+msgstr "au nom de"
+
+#. module: techserv_portal
+#: model_terms:ir.ui.view,arch_db:techserv_portal.portal_my_intervention
+msgid "until"
+msgstr "jusqu'au"
