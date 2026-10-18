@@ -10,6 +10,10 @@
                 <field name="techserv_state" invisible="1"/>
                 <button name="action_techserv_start" type="object" string="Start"
                         class="btn-primary" invisible="techserv_state != 'planned'"/>
+                <button name="%(action_techserv_intervention_close_wizard)d" type="action" string="Close"
+                        class="btn-primary" invisible="techserv_state not in ('planned', 'in_progress')"
+                        context="{'default_intervention_id': id}"
+                        groups="techserv_intervention.group_techserv_technician"/>
             </xpath>
             <!-- Le bouton standard « Annuler » n'est proposé que tant que le technicien n'est pas parti -->
             <xpath expr="//button[@name='archive_equipment_request']" position="attributes">

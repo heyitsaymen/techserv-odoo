@@ -1,4 +1,6 @@
-from odoo import api, fields, models
+from collections import defaultdict
+
+from odoo import Command, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 # États à partir desquels le technicien est « parti » : plus d'annulation ni de suppression
@@ -230,3 +232,133 @@ class MaintenanceRequest(models.Model):
         # Rouvrir une intervention annulée est réservé aux responsables
         self._check_techserv_manager(self.env._("Only TechServ managers can reopen interventions."))
         return super().reset_equipment_request()
+
+    # ------------------------------------------------------------------
+    # Clôture : sortie de stock des pièces
+    # ------------------------------------------------------------------
+
+    def _techserv_create_parts_picking(self):
+        """Crée et valide le bon de sortie standard (stock.picking) des pièces.
+
+        sudo() limité à ce bloc : le technicien n'est pas utilisateur de
+        l'Inventaire, mais la sortie de stock est la conséquence normale de
+        la clôture qu'il a le droit de faire.
+        """
+        self.ensure_one()
+        parts = self.part_ids.filtered(lambda p: not p.move_id)
+        if not parts:
+            return self.env['stock.picking']
+        warehouse = self.env['stock.warehouse'].sudo().search([('company_id', '=', self.company_id.id)], limit=1)
+        if not warehouse:
+            raise UserError(self.env._("No warehouse is configured for the company %s.", self.company_id.name))
+        picking_type = warehouse.out_type_id
+        source = picking_type.default_location_src_id
+        destination = self.env.ref('stock.stock_location_customers')
+        picking = self.env['stock.picking'].sudo().with_company(self.company_id).create({
+            'picking_type_id': picking_type.id,
+            'partner_id': self.customer_id.id,
+            'origin': self.reference,
+            'location_id': source.id,
+            'location_dest_id': destination.id,
+            'move_ids': [Command.create({
+                'product_id': part.product_id.id,
+                'product_uom_qty': part.quantity,
+                'product_uom': part.product_id.uom_id.id,
+                'location_id': source.id,
+                'location_dest_id': destination.id,
+            }) for part in parts],
+        })
+        picking.action_confirm()
+        # Les pièces ont réellement été utilisées : quantité faite = quantité demandée
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty
+            move.picked = True
+        result = picking.button_validate()
+        if result is not True or picking.state != 'done':
+            raise UserError(self.env._("The parts delivery %s could not be validated.", picking.name))
+        for part, move in zip(parts, picking.move_ids):
+            part.move_id = move
+        self.picking_id = picking
+        return picking
+
+    # ------------------------------------------------------------------
+    # Facturation
+    # ------------------------------------------------------------------
+
+    def _get_techserv_intervention_date(self):
+        """Date de l'intervention : clôture, sinon date planifiée, sinon demande."""
+        self.ensure_one()
+        return self.close_date or (self.schedule_date and self.schedule_date.date()) or self.request_date
+
+    def _is_under_warranty_on_intervention_date(self):
+        self.ensure_one()
+        return bool(self.equipment_id) and self.equipment_id._is_under_warranty_at(
+            self._get_techserv_intervention_date())
+
+    def _prepare_techserv_invoice_lines(self):
+        """Lignes de facture d'une intervention : section, main-d'oeuvre (sauf
+        garantie à la date de l'intervention), puis pièces (toujours facturées)."""
+        self.ensure_one()
+        equipment = self.equipment_id
+        title = self.reference
+        if equipment:
+            title += f" - {equipment.name}" + (f" (S/N {equipment.serial_no})" if equipment.serial_no else "")
+        lines = [Command.create({'display_type': 'line_section', 'name': title})]
+        if self.time_spent:
+            if self._is_under_warranty_on_intervention_date():
+                lines.append(Command.create({
+                    'display_type': 'line_note',
+                    'name': self.env._("Labour covered by the warranty (until %s).", equipment.warranty_date),
+                }))
+            else:
+                labour = self.env.ref('techserv_intervention.product_labour')
+                lines.append(Command.create({
+                    'product_id': labour.id,
+                    'quantity': self.time_spent,
+                    'product_uom_id': labour.uom_id.id,
+                }))
+        lines += [Command.create({
+            'product_id': part.product_id.id,
+            'quantity': part.quantity,
+            'product_uom_id': part.product_uom_id.id,
+        }) for part in self.part_ids]
+        return lines
+
+    def _techserv_create_invoices(self, grouping='customer'):
+        """Crée les factures clients (account.move standard) des interventions
+        terminées : une par intervention ou une par client (et par société)."""
+        self._check_techserv_manager(self.env._("Only TechServ managers can invoice interventions."))
+        wrong = self.filtered(lambda r: r.techserv_state != 'done' or r.invoice_id)
+        if wrong:
+            raise UserError(self.env._(
+                "Only done interventions that are not invoiced yet can be invoiced: %s",
+                ", ".join(wrong.mapped('display_name'))))
+        without_customer = self.filtered(lambda r: not r.customer_id)
+        if without_customer:
+            raise UserError(self.env._(
+                "These interventions have no customer: %s", ", ".join(without_customer.mapped('display_name'))))
+
+        batches = defaultdict(lambda: self.browse())
+        for intervention in self.sorted('id'):
+            if grouping == 'intervention':
+                key = intervention.id
+            else:
+                key = (intervention.company_id.id, intervention.customer_id.id)
+            batches[key] |= intervention
+
+        invoiced_stage = self._get_techserv_stage('invoiced')
+        invoices = self.env['account.move']
+        for batch in batches.values():
+            invoice_lines = []
+            for intervention in batch:
+                invoice_lines += intervention._prepare_techserv_invoice_lines()
+            invoice = self.env['account.move'].with_company(batch.company_id).create({
+                'move_type': 'out_invoice',
+                'partner_id': batch.customer_id.id,
+                'company_id': batch.company_id.id,
+                'invoice_origin': ", ".join(batch.mapped('reference')),
+                'invoice_line_ids': invoice_lines,
+            })
+            batch.write({'invoice_id': invoice.id, 'stage_id': invoiced_stage.id})
+            invoices |= invoice
+        return invoices

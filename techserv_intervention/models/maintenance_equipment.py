@@ -64,6 +64,16 @@ class MaintenanceEquipment(models.Model):
         if self.product_id and not self.name:
             self.name = self.product_id.name
 
+    @api.model
+    def get_import_templates(self):
+        """Import Excel du parc : on utilise l'import standard d'Odoo (bouton
+        « Tester » qui liste les lignes en erreur). Cette méthode standard ajoute
+        seulement un lien de téléchargement du modèle dans l'écran d'import."""
+        return [{
+            'label': self.env._("Import Template for Customer Equipment"),
+            'template': '/techserv_intervention/static/import/equipment_import_template.xlsx',
+        }]
+
     def action_new_intervention(self):
         """Bouton « Nouvelle intervention » : ouvre le formulaire d'une demande
         avec le client et l'équipement pré-remplis par le contexte (default_...)."""

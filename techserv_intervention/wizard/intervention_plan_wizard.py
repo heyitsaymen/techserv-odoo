@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class TechservInterventionPlanWizard(models.TransientModel):
@@ -35,7 +35,7 @@ class TechservInterventionPlanWizard(models.TransientModel):
     @api.constrains('default_duration')
     def _check_default_duration(self):
         if any(wizard.default_duration <= 0 for wizard in self):
-            raise UserError(self.env._("The default duration must be positive."))
+            raise ValidationError(self.env._("The default duration must be positive."))
 
     def action_plan(self):
         self.ensure_one()

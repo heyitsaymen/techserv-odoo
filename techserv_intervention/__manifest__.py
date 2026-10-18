@@ -28,6 +28,8 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'data/ir_sequence_data.xml',
         'data/maintenance_stage_data.xml',
         'data/hr_skill_data.xml',
+        'data/product_data.xml',
+        'wizard/intervention_wizard_views.xml',
         'views/maintenance_equipment_views.xml',
         'views/maintenance_request_views.xml',
         'views/hr_employee_views.xml',
