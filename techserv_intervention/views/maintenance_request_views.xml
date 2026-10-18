@@ -118,6 +118,8 @@
             </xpath>
             <xpath expr="//filter[@name='unscheduled']" position="after">
                 <separator/>
+                <filter string="Customer Interventions" name="techserv_customer" domain="[('customer_id', '!=', False)]"/>
+                <separator/>
                 <filter string="To Plan" name="techserv_to_plan" domain="[('techserv_state', '=', 'received')]"/>
                 <filter string="Planned" name="techserv_planned" domain="[('techserv_state', '=', 'planned')]"/>
                 <filter string="To Invoice" name="techserv_to_invoice" domain="[('techserv_state', '=', 'done')]"/>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260910\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-18 15:40+0000\n"
-"PO-Revision-Date: 2026-10-18 15:40+0000\n"
+"POT-Creation-Date: 2026-10-18 15:56+0000\n"
+"PO-Revision-Date: 2026-10-18 15:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -79,6 +79,11 @@ msgstr "<strong>Technicien</strong>"
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
 msgid "<strong>Warranty</strong>"
 msgstr "<strong>Garantie</strong>"
+
+#. module: techserv_intervention
+#: model_terms:ir.actions.act_window,help:techserv_intervention.action_techserv_equipment
+msgid "Add the equipment installed at your customers'"
+msgstr "Ajoutez les équipements installés chez vos clients"
 
 #. module: techserv_intervention
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
@@ -206,6 +211,11 @@ msgid "Create Invoices"
 msgstr "Créer les factures"
 
 #. module: techserv_intervention
+#: model_terms:ir.actions.act_window,help:techserv_intervention.action_techserv_interventions
+msgid "Create a new intervention"
+msgstr "Créer une nouvelle intervention"
+
+#. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_product_product__create_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_product_template__create_intervention
 msgid "Create an Intervention"
@@ -249,9 +259,16 @@ msgid "Customer"
 msgstr "Client"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_equipment
 #: model:ir.ui.menu,name:techserv_intervention.menu_techserv_equipment
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_search_inherit_techserv
 msgid "Customer Equipment"
 msgstr "Parc client"
+
+#. module: techserv_intervention
+#: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
+msgid "Customer Interventions"
+msgstr "Interventions clients"
 
 #. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__customer_signature
@@ -352,6 +369,7 @@ msgid "Equipment"
 msgstr "Équipement"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_categories
 #: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_categories
 msgid "Equipment Categories"
 msgstr "Catégories d'équipement"
@@ -376,6 +394,11 @@ msgstr "Filtre"
 #: model:product.template,name:techserv_intervention.product_part_filter_product_template
 msgid "Filtre à air pour climatiseur"
 msgstr ""
+
+#. module: techserv_intervention
+#: model_terms:ir.actions.act_window,help:techserv_intervention.action_techserv_interventions
+msgid "Follow the intervention from the customer's call to the invoice."
+msgstr "Suivez l'intervention de l'appel du client jusqu'à la facture."
 
 #. module: techserv_intervention
 #: model:product.template,name:techserv_intervention.product_part_seal_product_template
@@ -500,6 +523,7 @@ msgid "Intervention on %s"
 msgstr "Intervention sur %s"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_interventions
 #: model:ir.model.fields,field_description:techserv_intervention.field_account_bank_statement_line__intervention_ids
 #: model:ir.model.fields,field_description:techserv_intervention.field_account_move__intervention_ids
 #: model:ir.model.fields,field_description:techserv_intervention.field_hr_employee__intervention_count
@@ -589,6 +613,7 @@ msgid "Maintenance Stage"
 msgstr "Étape de maintenance"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_teams
 #: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_teams
 msgid "Maintenance Teams"
 msgstr "Équipes de maintenance"
@@ -693,6 +718,13 @@ msgid "Only received or planned interventions can be assigned: %s"
 msgstr "Seules les interventions reçues ou planifiées peuvent être attribuées : %s"
 
 #. module: techserv_intervention
+#: model_terms:ir.actions.act_window,help:techserv_intervention.action_techserv_equipment
+msgid ""
+"Or import your existing equipment list from Excel (Actions &gt; Import "
+"records)."
+msgstr "Ou importez votre parc existant depuis Excel (Actions &gt; Importer des enregistrements)."
+
+#. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__picking_id
 msgid "Parts Delivery"
 msgstr "Sortie des pièces"
@@ -712,6 +744,7 @@ msgid "Planned"
 msgstr "Planifiée"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_planning
 #: model:ir.ui.menu,name:techserv_intervention.menu_techserv_planning
 msgid "Planning"
 msgstr "Planning"
@@ -862,6 +895,7 @@ msgid "Signed on"
 msgstr "Signé le"
 
 #. module: techserv_intervention
+#: model:ir.actions.act_window,name:techserv_intervention.action_techserv_stages
 #: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_stages
 msgid "Stages"
 msgstr "Étapes"

@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--
-        Application « TechServ » sur l'écran d'accueil. Ce ne sont que des raccourcis :
-        les menus pointent vers les actions STANDARD du module Maintenance (et vers nos
-        assistants). Les menus Maintenance d'origine restent disponibles.
+        Application « TechServ » sur l'écran d'accueil.
+        Les actions ci-dessous réutilisent les modèles et les vues STANDARD de Maintenance ;
+        elles sont propres à TechServ uniquement pour que la barre de menus reste celle de
+        TechServ (Odoo rattache un écran au premier menu qui porte son action) et pour
+        n'afficher par défaut que les interventions et équipements clients.
+        Les menus Maintenance d'origine restent disponibles.
     -->
+    <record id="action_techserv_interventions" model="ir.actions.act_window">
+        <field name="name">Interventions</field>
+        <field name="res_model">maintenance.request</field>
+        <field name="path">techserv-interventions</field>
+        <field name="view_mode">kanban,list,form,calendar,pivot,graph,activity</field>
+        <field name="view_id" ref="maintenance.hr_equipment_request_view_kanban"/>
+        <field name="context">{'search_default_active': True, 'search_default_techserv_customer': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new intervention</p>
+            <p>Follow the intervention from the customer's call to the invoice.</p>
+        </field>
+    </record>
+
+    <record id="action_techserv_planning" model="ir.actions.act_window">
+        <field name="name">Planning</field>
+        <field name="res_model">maintenance.request</field>
+        <field name="path">techserv-planning</field>
+        <field name="view_mode">calendar,list,kanban,form</field>
+        <field name="view_id" ref="maintenance.hr_equipment_view_calendar"/>
+        <field name="context">{'search_default_active': True, 'search_default_techserv_customer': True}</field>
+    </record>
+
+    <record id="action_techserv_equipment" model="ir.actions.act_window">
+        <field name="name">Customer Equipment</field>
+        <field name="res_model">maintenance.equipment</field>
+        <field name="path">techserv-equipment</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_techserv_customer': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add the equipment installed at your customers'</p>
+            <p>Or import your existing equipment list from Excel (Actions > Import records).</p>
+        </field>
+    </record>
+
+    <record id="action_techserv_teams" model="ir.actions.act_window">
+        <field name="name">Maintenance Teams</field>
+        <field name="res_model">maintenance.team</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="maintenance.maintenance_team_view_tree"/>
+    </record>
+
+    <record id="action_techserv_categories" model="ir.actions.act_window">
+        <field name="name">Equipment Categories</field>
+        <field name="res_model">maintenance.equipment.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="maintenance.hr_equipment_category_view_tree"/>
+    </record>
+
+    <record id="action_techserv_stages" model="ir.actions.act_window">
+        <field name="name">Stages</field>
+        <field name="res_model">maintenance.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
     <menuitem id="menu_techserv_root"
               name="TechServ"
               web_icon="techserv_intervention,static/description/icon.png"
@@ -14,19 +71,19 @@
     <menuitem id="menu_techserv_interventions"
               name="Interventions"
               parent="menu_techserv_root"
-              action="maintenance.hr_equipment_request_action"
+              action="action_techserv_interventions"
               sequence="10"/>
 
     <menuitem id="menu_techserv_planning"
               name="Planning"
               parent="menu_techserv_root"
-              action="maintenance.hr_equipment_request_action_cal"
+              action="action_techserv_planning"
               sequence="20"/>
 
     <menuitem id="menu_techserv_equipment"
               name="Customer Equipment"
               parent="menu_techserv_root"
-              action="maintenance.hr_equipment_action"
+              action="action_techserv_equipment"
               sequence="30"/>
 
     <menuitem id="menu_techserv_invoicing"
@@ -44,16 +101,16 @@
     <menuitem id="menu_techserv_config_teams"
               name="Maintenance Teams"
               parent="menu_techserv_configuration"
-              action="maintenance.maintenance_team_action_settings"
+              action="action_techserv_teams"
               sequence="10"/>
     <menuitem id="menu_techserv_config_categories"
               name="Equipment Categories"
               parent="menu_techserv_configuration"
-              action="maintenance.hr_equipment_category_action"
+              action="action_techserv_categories"
               sequence="20"/>
     <menuitem id="menu_techserv_config_stages"
               name="Stages"
               parent="menu_techserv_configuration"
-              action="maintenance.hr_equipment_stage_action"
+              action="action_techserv_stages"
               sequence="30"/>
 </odoo>

@@ -67,6 +67,8 @@
             </xpath>
             <xpath expr="//filter[@name='under_maintenance']" position="after">
                 <separator/>
+                <filter string="Customer Equipment" name="techserv_customer" domain="[('customer_id', '!=', False)]"/>
+                <separator/>
                 <!-- Utilise la méthode search= du champ calculé non stocké -->
                 <filter string="Under Warranty" name="under_warranty" domain="[('is_under_warranty', '=', True)]"/>
                 <filter string="Warranty Expired" name="warranty_expired" domain="[('is_under_warranty', '=', False)]"/>
