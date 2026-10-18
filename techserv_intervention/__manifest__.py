@@ -34,6 +34,7 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'data/mail_data.xml',
         'data/base_automation_data.xml',
         'wizard/intervention_wizard_views.xml',
+        'views/techserv_menus.xml',
         'views/maintenance_equipment_views.xml',
         'views/maintenance_request_views.xml',
         'views/hr_employee_views.xml',

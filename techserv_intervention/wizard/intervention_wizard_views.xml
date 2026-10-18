@@ -121,11 +121,4 @@
         <field name="group_ids" eval="[(4, ref('group_techserv_manager'))]"/>
     </record>
 
-    <menuitem id="menu_techserv_invoice_interventions"
-              name="Invoice Interventions"
-              parent="maintenance.menu_m_request"
-              action="action_techserv_intervention_invoice_wizard"
-              groups="group_techserv_manager"
-              sequence="5"/>
-
 </odoo>

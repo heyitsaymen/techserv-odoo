@@ -103,7 +103,8 @@ docker compose run --rm odoo odoo -d techserv_test -i techserv_intervention,tech
 
 ## 3. Utilisation
 
-- **Parc client** : *Maintenance > Équipements*. Filtres « Sous garantie » / « Garantie expirée »,
+- **Application TechServ** : icône *TechServ* sur l'écran d'accueil (Interventions, Planning, Parc client, Facturer les interventions, Configuration) ; ce sont des raccourcis vers les écrans standard de Maintenance.
+- **Parc client** : *TechServ > Parc client* (ou *Maintenance > Équipements*). Filtres « Sous garantie » / « Garantie expirée »,
   regroupement par client, onglet *Interventions* (historique) et bouton **Nouvelle intervention**.
 - **Interventions** : *Maintenance > Maintenance > Demandes de maintenance* (kanban par étape,
   liste, calendrier). La référence `INT/AAAA/NNNNN` est cherchable directement.

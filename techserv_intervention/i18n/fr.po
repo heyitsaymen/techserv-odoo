@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260910\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-18 10:49+0000\n"
-"PO-Revision-Date: 2026-10-18 10:49+0000\n"
+"POT-Creation-Date: 2026-10-18 15:40+0000\n"
+"PO-Revision-Date: 2026-10-18 15:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -123,6 +123,7 @@ msgstr "Attribuer à un technicien"
 
 #. module: techserv_intervention
 #: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__cancel
+#: model:maintenance.stage,name:maintenance.stage_4
 msgid "Cancelled"
 msgstr "Annulée"
 
@@ -185,6 +186,11 @@ msgid "Condensateur 35 µF"
 msgstr ""
 
 #. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_configuration
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: techserv_intervention
 #: model:ir.model,name:techserv_intervention.model_res_partner
 msgid "Contact"
 msgstr "Contact"
@@ -241,6 +247,11 @@ msgstr "Créé le"
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_search_inherit_techserv
 msgid "Customer"
 msgstr "Client"
+
+#. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_equipment
+msgid "Customer Equipment"
+msgstr "Parc client"
 
 #. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_maintenance_request__customer_signature
@@ -312,6 +323,7 @@ msgstr "Nom d'affichage"
 
 #. module: techserv_intervention
 #: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__done
+#: model:maintenance.stage,name:maintenance.stage_3
 msgid "Done"
 msgstr "Terminée"
 
@@ -338,6 +350,11 @@ msgstr "Employé"
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.res_partner_view_form_inherit_techserv
 msgid "Equipment"
 msgstr "Équipement"
+
+#. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_categories
+msgid "Equipment Categories"
+msgstr "Catégories d'équipement"
 
 #. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_res_partner__equipment_count
@@ -436,6 +453,7 @@ msgstr "Modèle d'import du parc client"
 
 #. module: techserv_intervention
 #: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__in_progress
+#: model:maintenance.stage,name:maintenance.stage_1
 msgid "In Progress"
 msgstr "En cours"
 
@@ -488,6 +506,7 @@ msgstr "Intervention sur %s"
 #: model:ir.model.fields,field_description:techserv_intervention.field_sale_order__intervention_ids
 #: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_invoice_wizard__intervention_ids
 #: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__intervention_ids
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_interventions
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.account_move_view_form_inherit_techserv
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.hr_employee_view_form_inherit_techserv
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_equipment_view_form_inherit_techserv
@@ -504,7 +523,7 @@ msgstr "Facture"
 #. module: techserv_intervention
 #: model:ir.actions.act_window,name:techserv_intervention.action_techserv_intervention_invoice_wizard
 #: model:ir.model,name:techserv_intervention.model_techserv_intervention_invoice_wizard
-#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_invoice_interventions
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_invoicing
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.techserv_intervention_invoice_wizard_view_form
 msgid "Invoice Interventions"
 msgstr "Facturer les interventions"
@@ -568,6 +587,11 @@ msgstr "Demande de maintenance"
 #: model:ir.model,name:techserv_intervention.model_maintenance_stage
 msgid "Maintenance Stage"
 msgstr "Étape de maintenance"
+
+#. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_teams
+msgid "Maintenance Teams"
+msgstr "Équipes de maintenance"
 
 #. module: techserv_intervention
 #: model:res.groups,name:techserv_intervention.group_techserv_manager
@@ -688,6 +712,11 @@ msgid "Planned"
 msgstr "Planifiée"
 
 #. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_planning
+msgid "Planning"
+msgstr "Planning"
+
+#. module: techserv_intervention
 #. odoo-python
 #: code:addons/techserv_intervention/wizard/intervention_close_wizard.py:0
 msgid "Please enter the time spent."
@@ -755,6 +784,7 @@ msgstr "Attestation de capacité fluides frigorigènes"
 
 #. module: techserv_intervention
 #: model:ir.model.fields.selection,name:techserv_intervention.selection__maintenance_stage__techserv_state__received
+#: model:maintenance.stage,name:maintenance.stage_0
 msgid "Request Received"
 msgstr "Demande reçue"
 
@@ -832,6 +862,11 @@ msgid "Signed on"
 msgstr "Signé le"
 
 #. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_config_stages
+msgid "Stages"
+msgstr "Étapes"
+
+#. module: techserv_intervention
 #: model:ir.model.fields,field_description:techserv_intervention.field_techserv_intervention_plan_wizard__start_datetime
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.maintenance_request_view_form_inherit_techserv
 msgid "Start"
@@ -846,6 +881,11 @@ msgstr "Mouvement de stock"
 #: model_terms:ir.ui.view,arch_db:techserv_intervention.report_intervention_document
 msgid "Subject"
 msgstr "Sujet"
+
+#. module: techserv_intervention
+#: model:ir.ui.menu,name:techserv_intervention.menu_techserv_root
+msgid "TechServ"
+msgstr "TechServ"
 
 #. module: techserv_intervention
 #: model:res.groups.privilege,name:techserv_intervention.res_groups_privilege_techserv
@@ -1070,26 +1110,3 @@ msgstr "jusqu'au"
 #: model:maintenance.team,name:techserv_intervention.team_oran
 msgid "Équipe Oran"
 msgstr ""
-
-
-# Étapes standard du module Maintenance renommées par ce module (données XML) :
-# l'export ne les contient pas car leur identifiant appartient au module maintenance.
-#. module: techserv_intervention
-#: model:maintenance.stage,name:maintenance.stage_0
-msgid "Request Received"
-msgstr "Demande reçue"
-
-#. module: techserv_intervention
-#: model:maintenance.stage,name:maintenance.stage_1
-msgid "In Progress"
-msgstr "En cours"
-
-#. module: techserv_intervention
-#: model:maintenance.stage,name:maintenance.stage_3
-msgid "Done"
-msgstr "Terminée"
-
-#. module: techserv_intervention
-#: model:maintenance.stage,name:maintenance.stage_4
-msgid "Cancelled"
-msgstr "Annulée"

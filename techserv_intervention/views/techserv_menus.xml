@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Application « TechServ » sur l'écran d'accueil. Ce ne sont que des raccourcis :
+        les menus pointent vers les actions STANDARD du module Maintenance (et vers nos
+        assistants). Les menus Maintenance d'origine restent disponibles.
+    -->
+    <menuitem id="menu_techserv_root"
+              name="TechServ"
+              web_icon="techserv_intervention,static/description/icon.png"
+              groups="group_techserv_technician"
+              sequence="45"/>
+
+    <menuitem id="menu_techserv_interventions"
+              name="Interventions"
+              parent="menu_techserv_root"
+              action="maintenance.hr_equipment_request_action"
+              sequence="10"/>
+
+    <menuitem id="menu_techserv_planning"
+              name="Planning"
+              parent="menu_techserv_root"
+              action="maintenance.hr_equipment_request_action_cal"
+              sequence="20"/>
+
+    <menuitem id="menu_techserv_equipment"
+              name="Customer Equipment"
+              parent="menu_techserv_root"
+              action="maintenance.hr_equipment_action"
+              sequence="30"/>
+
+    <menuitem id="menu_techserv_invoicing"
+              name="Invoice Interventions"
+              parent="menu_techserv_root"
+              action="action_techserv_intervention_invoice_wizard"
+              groups="group_techserv_manager"
+              sequence="40"/>
+
+    <menuitem id="menu_techserv_configuration"
+              name="Configuration"
+              parent="menu_techserv_root"
+              groups="group_techserv_manager"
+              sequence="100"/>
+    <menuitem id="menu_techserv_config_teams"
+              name="Maintenance Teams"
+              parent="menu_techserv_configuration"
+              action="maintenance.maintenance_team_action_settings"
+              sequence="10"/>
+    <menuitem id="menu_techserv_config_categories"
+              name="Equipment Categories"
+              parent="menu_techserv_configuration"
+              action="maintenance.hr_equipment_category_action"
+              sequence="20"/>
+    <menuitem id="menu_techserv_config_stages"
+              name="Stages"
+              parent="menu_techserv_configuration"
+              action="maintenance.hr_equipment_stage_action"
+              sequence="30"/>
+</odoo>
