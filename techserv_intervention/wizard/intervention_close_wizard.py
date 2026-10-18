@@ -16,18 +16,31 @@ class TechservInterventionCloseWizard(models.TransientModel):
     intervention_id = fields.Many2one(
         'maintenance.request', string='Intervention', required=True, default=_default_intervention_id)
     company_id = fields.Many2one(related='intervention_id.company_id')
+    # Valeurs proposées (modifiables), calculées depuis l'intervention. Deux méthodes
+    # distinctes : si un champ est fourni à la création, Odoo ne recalcule pas les
+    # autres champs de la même méthode.
     time_spent = fields.Float(
-        string='Time Spent', compute='_compute_from_intervention', store=True, readonly=False)
+        string='Time Spent', compute='_compute_time_spent', store=True, readonly=False)
     line_ids = fields.One2many('techserv.intervention.close.wizard.line', 'wizard_id', string='Parts Used')
-    signature = fields.Binary(string='Customer Signature')
-    signed_by = fields.Char(string='Signed By', compute='_compute_from_intervention', store=True, readonly=False)
+    signature = fields.Binary(
+        string='Customer Signature', compute='_compute_signature', store=True, readonly=False)
+    signed_by = fields.Char(string='Signed By', compute='_compute_signed_by', store=True, readonly=False)
 
     @api.depends('intervention_id')
-    def _compute_from_intervention(self):
-        # Valeurs proposées : durée planifiée et nom du client (modifiables)
+    def _compute_time_spent(self):
         for wizard in self:
             wizard.time_spent = wizard.intervention_id.duration
-            wizard.signed_by = wizard.intervention_id.customer_id.name
+
+    @api.depends('intervention_id')
+    def _compute_signature(self):
+        # Signature déjà donnée par le client (par exemple en ligne, sur le portail)
+        for wizard in self:
+            wizard.signature = wizard.intervention_id.customer_signature
+
+    @api.depends('intervention_id')
+    def _compute_signed_by(self):
+        for wizard in self:
+            wizard.signed_by = wizard.intervention_id.signed_by or wizard.intervention_id.customer_id.name
 
     def action_close(self):
         self.ensure_one()
@@ -44,7 +57,9 @@ class TechservInterventionCloseWizard(models.TransientModel):
             'time_spent': self.time_spent,
             'customer_signature': self.signature,
             'signed_by': self.signed_by,
-            'signed_on': fields.Datetime.now(),
+            # On garde la date d'une signature déjà donnée en ligne
+            'signed_on': (intervention.signed_on if self.signature == intervention.customer_signature
+                          else fields.Datetime.now()) or fields.Datetime.now(),
             'part_ids': [Command.create({
                 'product_id': line.product_id.id,
                 'quantity': line.quantity,

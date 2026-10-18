@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Fil d'Ariane -->
+    <template id="portal_breadcrumbs_intervention" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'intervention'" t-attf-class="breadcrumb-item #{'active ' if not intervention else ''}">
+                <a t-if="intervention" href="/my/interventions">Interventions</a>
+                <t t-else="">Interventions</t>
+            </li>
+            <li t-if="page_name == 'intervention' and intervention" class="breadcrumb-item active">
+                <t t-out="intervention.reference"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Carte + compteur sur l'accueil du portail (/my) -->
+    <template id="portal_my_home_intervention" name="Interventions" customize_show="True"
+              inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/maintenance/static/description/icon.svg'"/>
+                <t t-set="title">Interventions</t>
+                <t t-set="url" t-value="'/my/interventions'"/>
+                <t t-set="text">Follow your interventions and sign the reports</t>
+                <t t-set="placeholder_count" t-value="'intervention_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- Liste des interventions -->
+    <template id="portal_my_interventions" name="My Interventions">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Interventions</t>
+            </t>
+            <div t-if="not interventions" class="alert alert-info" role="alert">
+                There are currently no interventions for your account.
+            </div>
+            <t t-if="interventions" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Reference</th>
+                        <th>Subject</th>
+                        <th class="d-none d-md-table-cell">Equipment</th>
+                        <th class="text-end">Scheduled</th>
+                        <th class="text-end">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="interventions" t-as="intervention">
+                        <td><a t-att-href="intervention.get_portal_url()" t-out="intervention.reference"/></td>
+                        <td t-out="intervention.name"/>
+                        <td class="d-none d-md-table-cell" t-out="intervention.equipment_id.name or ''"/>
+                        <td class="text-end"><span t-field="intervention.schedule_date"/></td>
+                        <td class="text-end">
+                            <span class="badge rounded-pill text-bg-info" t-field="intervention.stage_id"/>
+                            <span t-if="intervention._techserv_portal_can_sign()"
+                                  class="badge rounded-pill text-bg-warning">To sign</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <!-- Détail d'une intervention -->
+    <template id="portal_my_intervention" name="My Intervention">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="techserv_intervention.group_techserv_technician">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/odoo/maintenance-requests/%s' % intervention.id"/>
+                </t>
+            </t>
+
+            <div t-if="message == 'sign_ok'" class="alert alert-success alert-dismissible mt-3" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                Thank you, the intervention report has been signed.
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header d-flex flex-wrap gap-2 align-items-center">
+                    <h4 class="mb-0 me-auto">
+                        <t t-out="intervention.reference"/> - <span t-field="intervention.name"/>
+                    </h4>
+                    <span class="badge rounded-pill text-bg-info fs-6" t-field="intervention.stage_id"/>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-5">Equipment</dt>
+                                <dd class="col-7" t-out="intervention.equipment_id.name or '-'"/>
+                                <dt class="col-5">Serial Number</dt>
+                                <dd class="col-7" t-out="intervention.equipment_id.serial_no or '-'"/>
+                                <dt class="col-5">Warranty</dt>
+                                <dd class="col-7">
+                                    <t t-if="intervention.equipment_id.warranty_date">
+                                        until <span t-field="intervention.equipment_id.warranty_date"/>
+                                    </t>
+                                    <t t-else="">-</t>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-5">Scheduled</dt>
+                                <dd class="col-7"><span t-field="intervention.schedule_date"/></dd>
+                                <dt class="col-5">Technician</dt>
+                                <dd class="col-7" t-out="intervention.user_id.name or '-'"/>
+                                <dt class="col-5" t-if="intervention.time_spent">Time Spent</dt>
+                                <dd class="col-7" t-if="intervention.time_spent">
+                                    <span t-field="intervention.time_spent" t-options='{"widget": "float_time"}'/> h
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div t-if="intervention.description" class="mt-3" t-field="intervention.description"/>
+
+                    <table t-if="intervention.part_ids" class="table table-sm mt-3">
+                        <thead><tr><th>Parts Used</th><th class="text-end">Quantity</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="intervention.part_ids" t-as="part">
+                                <td t-out="part.product_id.display_name"/>
+                                <td class="text-end"><span t-field="part.quantity"/> <span t-field="part.product_uom_id"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div t-if="intervention.customer_signature" class="mt-3">
+                        <strong>Signed by <span t-field="intervention.signed_by"/></strong>
+                        <span class="text-muted"> - <span t-field="intervention.signed_on"/></span>
+                        <div>
+                            <img t-att-src="image_data_uri(intervention.customer_signature)"
+                                 style="max-height: 6rem;" alt="Signature"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex flex-wrap gap-2">
+                    <a role="button" class="btn btn-secondary"
+                       t-att-href="intervention.get_portal_url(report_type='pdf', download=True)">
+                        <i class="fa fa-download"/> Download the report
+                    </a>
+                    <a t-if="intervention._techserv_portal_can_sign()" role="button" class="btn btn-primary"
+                       data-bs-toggle="modal" data-bs-target="#modal_techserv_sign" href="#">
+                        <i class="fa fa-pencil"/> Sign the report
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fenêtre de signature : composant standard du portail -->
+            <div t-if="intervention._techserv_portal_can_sign()" class="modal fade" id="modal_techserv_sign"
+                 tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <header class="modal-header">
+                            <h4 class="modal-title">Sign the intervention report</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </header>
+                        <main class="modal-body">
+                            <p>
+                                By signing, you confirm the intervention <b t-out="intervention.reference"/>
+                                on behalf of <b t-field="intervention.customer_id.commercial_partner_id"/>.
+                            </p>
+                            <t t-call="portal.signature_form">
+                                <t t-set="call_url" t-value="intervention.get_portal_url(suffix='/sign')"/>
+                                <t t-set="default_name" t-value="intervention.customer_id.name"/>
+                                <t t-set="send_label">Sign</t>
+                            </t>
+                        </main>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discussion (chatter du portail) -->
+            <div class="mt-4">
+                <h4>Communication history</h4>
+                <t t-call="portal.message_thread"/>
+            </div>
+        </t>
+    </template>
+</odoo>
