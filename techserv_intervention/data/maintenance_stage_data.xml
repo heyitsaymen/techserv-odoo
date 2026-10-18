@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Étapes des interventions livrées en données (aucun code).
+        On réutilise les 4 étapes standard du module Maintenance (renommées) pour
+        ne pas doubler les colonnes du kanban, et on en ajoute 2.
+        Chaque étape porte un état technique (techserv_state) utilisé par le code.
+    -->
+    <data noupdate="1">
+        <record id="maintenance.stage_0" model="maintenance.stage">
+            <field name="name">Request Received</field>
+            <field name="sequence">1</field>
+            <field name="techserv_state">received</field>
+        </record>
+        <record id="stage_planned" model="maintenance.stage">
+            <field name="name">Planned</field>
+            <field name="sequence">2</field>
+            <field name="techserv_state">planned</field>
+        </record>
+        <record id="maintenance.stage_1" model="maintenance.stage">
+            <field name="name">In Progress</field>
+            <field name="sequence">3</field>
+            <field name="techserv_state">in_progress</field>
+        </record>
+        <record id="maintenance.stage_3" model="maintenance.stage">
+            <field name="name">Done</field>
+            <field name="sequence">4</field>
+            <field name="fold" eval="False"/>
+            <field name="done" eval="True"/>
+            <field name="techserv_state">done</field>
+        </record>
+        <record id="stage_invoiced" model="maintenance.stage">
+            <field name="name">Invoiced</field>
+            <field name="sequence">5</field>
+            <field name="fold" eval="True"/>
+            <field name="done" eval="True"/>
+            <field name="techserv_state">invoiced</field>
+        </record>
+        <!-- L'ancienne étape « Rebut » devient « Annulée » : pas « done », sinon elle
+             fausserait les statistiques MTBF/MTTR du standard -->
+        <record id="maintenance.stage_4" model="maintenance.stage">
+            <field name="name">Cancelled</field>
+            <field name="sequence">6</field>
+            <field name="fold" eval="True"/>
+            <field name="done" eval="False"/>
+            <field name="techserv_state">cancel</field>
+        </record>
+    </data>
+</odoo>

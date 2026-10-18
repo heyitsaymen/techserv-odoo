@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="maintenance_request_view_form_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.request.form.inherit.techserv</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="techserv_state" invisible="1"/>
+                <button name="action_techserv_start" type="object" string="Start"
+                        class="btn-primary" invisible="techserv_state != 'planned'"/>
+            </xpath>
+            <!-- Le bouton standard « Annuler » n'est proposé que tant que le technicien n'est pas parti -->
+            <xpath expr="//button[@name='archive_equipment_request']" position="attributes">
+                <attribute name="invisible">archive or techserv_state not in ('received', 'planned')</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]/label" position="before">
+                <div class="text-muted fs-4" invisible="not reference">
+                    <field name="reference" readonly="1"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='equipment_id']" position="before">
+                <field name="customer_id"/>
+            </xpath>
+            <!-- Seuls les équipements du client choisi sont proposés (=? : ignoré si pas de client) -->
+            <xpath expr="//field[@name='equipment_id']" position="attributes">
+                <attribute name="domain">[('customer_id', '=?', customer_id)]</attribute>
+                <attribute name="context">{'default_company_id': company_id, 'default_category_id': category_id, 'default_customer_id': customer_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="string">Technician</attribute>
+                <attribute name="widget">many2one_avatar_user</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_list_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.request.list.inherit.techserv</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="reference"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_id"/>
+                <field name="equipment_id" optional="show"/>
+                <field name="priority" widget="priority" optional="show"/>
+                <field name="schedule_date" optional="show"/>
+                <field name="duration" widget="float_time" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_kanban_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.request.kanban.inherit.techserv</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='card']/field[@name='name']" position="before">
+                <field name="reference" class="text-muted small"/>
+            </xpath>
+            <xpath expr="//t[@t-name='card']/field[@name='name']" position="after">
+                <field name="customer_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_search_inherit_techserv" model="ir.ui.view">
+        <field name="name">maintenance.request.search.inherit.techserv</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="reference"/>
+            </xpath>
+            <xpath expr="//field[@name='equipment_id']" position="after">
+                <field name="customer_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='unscheduled']" position="after">
+                <separator/>
+                <filter string="To Plan" name="techserv_to_plan" domain="[('techserv_state', '=', 'received')]"/>
+                <filter string="Planned" name="techserv_planned" domain="[('techserv_state', '=', 'planned')]"/>
+                <filter string="To Invoice" name="techserv_to_invoice" domain="[('techserv_state', '=', 'done')]"/>
+            </xpath>
+            <xpath expr="//filter[@name='assigned']" position="before">
+                <filter string="Customer" name="groupby_customer" context="{'group_by': 'customer_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

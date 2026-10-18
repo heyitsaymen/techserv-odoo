@@ -16,10 +16,14 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'product',
     ],
     'data': [
+        'data/ir_sequence_data.xml',
+        'data/maintenance_stage_data.xml',
         'views/maintenance_equipment_views.xml',
+        'views/maintenance_request_views.xml',
     ],
     'demo': [
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': True,
 }
