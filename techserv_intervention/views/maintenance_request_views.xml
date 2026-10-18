@@ -14,6 +14,10 @@
             <!-- Le bouton standard « Annuler » n'est proposé que tant que le technicien n'est pas parti -->
             <xpath expr="//button[@name='archive_equipment_request']" position="attributes">
                 <attribute name="invisible">archive or techserv_state not in ('received', 'planned')</attribute>
+                <attribute name="groups">techserv_intervention.group_techserv_manager</attribute>
+            </xpath>
+            <xpath expr="//button[@name='reset_equipment_request']" position="attributes">
+                <attribute name="groups">techserv_intervention.group_techserv_manager</attribute>
             </xpath>
             <xpath expr="//div[hasclass('oe_title')]/label" position="before">
                 <div class="text-muted fs-4" invisible="not reference">

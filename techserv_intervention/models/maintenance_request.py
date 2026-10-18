@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 # États à partir desquels le technicien est « parti » : plus d'annulation ni de suppression
 STARTED_STATES = ('in_progress', 'done', 'invoiced')
@@ -94,11 +94,23 @@ class MaintenanceRequest(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        if vals.get('stage_id'):
-            new_state = self.env['maintenance.stage'].browse(vals['stage_id']).techserv_state
-            if new_state == 'cancel':
-                self._check_can_be_cancelled()
-        return super().write(vals)
+        # Les règles de changement d'étape sont contrôlées ici, côté serveur : elles
+        # s'appliquent quel que soit le chemin (bouton, barre d'étapes cliquable,
+        # glisser-déposer dans le kanban, import, appel RPC...).
+        new_state = vals.get('stage_id') and self.env['maintenance.stage'].browse(vals['stage_id']).techserv_state
+        if new_state == 'cancel':
+            self._check_techserv_manager(self.env._("Only TechServ managers can cancel interventions."))
+            self._check_can_be_cancelled()
+        elif new_state == 'invoiced':
+            self._check_techserv_manager(self.env._("Only TechServ managers can invoice interventions."))
+        res = super().write(vals)
+        if new_state == 'done' and self.filtered(lambda r: not r.customer_signature):
+            raise UserError(self.env._(
+                "An intervention can only be closed with the customer's signature: use the Close button."))
+        if new_state == 'invoiced' and self.filtered(lambda r: not r.invoice_id):
+            raise UserError(self.env._(
+                "An intervention can only be marked as invoiced by the invoicing wizard."))
+        return res
 
     # ------------------------------------------------------------------
     # Contraintes
@@ -146,6 +158,17 @@ class MaintenanceRequest(models.Model):
                     "The intervention %s has already started: it can no longer be cancelled.",
                     request.display_name))
 
+    def _check_techserv_manager(self, message):
+        """Contrôle des droits côté serveur. Masquer un bouton ne suffit pas :
+        une méthode publique peut être appelée par RPC ou depuis une autre vue."""
+        if not (self.env.su or self.env.user.has_group('techserv_intervention.group_techserv_manager')):
+            raise AccessError(message)
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_not_manager(self):
+        # Doublé par une règle d'enregistrement globale (perm_unlink) pour les techniciens
+        self._check_techserv_manager(self.env._("Only TechServ managers can delete interventions."))
+
     @api.ondelete(at_uninstall=False)
     def _unlink_except_started(self):
         """Interdit la suppression d'une intervention commencée (on garde une trace).
@@ -169,11 +192,19 @@ class MaintenanceRequest(models.Model):
             raise UserError(self.env._("No stage is configured for the state '%s'.", state))
         return stage
 
+    def _techserv_get_managers(self):
+        """Responsables TechServ ayant accès à la société de l'intervention."""
+        self.ensure_one()
+        group = self.env.ref('techserv_intervention.group_techserv_manager')
+        return group.sudo().all_user_ids.filtered(lambda u: not u.share and self.company_id in u.company_ids)
+
     def _techserv_notify_team(self, summary, note=None):
         """Prévient l'équipe technique dans Odoo : une activité « À faire » pour
-        chaque membre de l'équipe de maintenance standard (maintenance.team)."""
+        chaque membre de l'équipe de maintenance standard (maintenance.team), ou
+        pour les responsables si l'équipe n'a pas de membre."""
         for request in self:
-            for user in request.maintenance_team_id.member_ids:
+            users = request.maintenance_team_id.member_ids or request._techserv_get_managers()
+            for user in users:
                 request.activity_schedule(
                     'mail.mail_activity_data_todo', summary=summary, note=note, user_id=user.id)
 
@@ -194,3 +225,8 @@ class MaintenanceRequest(models.Model):
     def archive_equipment_request(self):
         # Le bouton standard « Annuler » applique désormais nos règles d'annulation
         return self.action_techserv_cancel()
+
+    def reset_equipment_request(self):
+        # Rouvrir une intervention annulée est réservé aux responsables
+        self._check_techserv_manager(self.env._("Only TechServ managers can reopen interventions."))
+        return super().reset_equipment_request()

@@ -22,7 +22,9 @@ Maintenance, Employés, Flotte, Ventes, Inventaire et Facturation.
         'stock',
     ],
     'data': [
+        'security/techserv_security.xml',
         'security/ir.model.access.csv',
+        'security/techserv_rules.xml',
         'data/ir_sequence_data.xml',
         'data/maintenance_stage_data.xml',
         'data/hr_skill_data.xml',
