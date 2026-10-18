@@ -1,9 +1,8 @@
 # Lancement rapide pour le correcteur : Odoo 19 Community + PostgreSQL 16.
 #   docker compose up -d
-#   puis ouvrir http://localhost:8069 et créer une base (cocher « données de démonstration »),
-#   ou installer directement les modules en ligne de commande :
-#   docker compose run --rm odoo odoo -d techserv -i techserv_intervention,techserv_portal \
-#       --stop-after-init --db_host=db --db_user=odoo --db_password=odoo --with-demo
+#   docker compose run --rm odoo odoo -d techserv --with-demo -i techserv_intervention,techserv_portal --stop-after-init
+#   docker compose restart odoo      puis http://localhost:8069 (admin / admin)
+# L'image officielle ajoute elle-même les paramètres de connexion à la base (HOST/USER/PASSWORD).
 services:
   db:
     image: postgres:16
